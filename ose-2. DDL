@@ -2,6 +2,6 @@
 2. Schema
 3. Naming rules, Namespace
 4. DESC - describle
-5. CREATE, ALTER
+5. CREATE, ALTER (MODIFY, ADD)
 6. Data types; CHAR, VARCHAR2(n), NUMBER, DATE, LOBs
 7. CONSTRAINT: NOT NULL, UNIQUE, PRIMARY KEY, FOREIGN KEY, CHECK
