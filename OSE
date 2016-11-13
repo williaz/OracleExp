@@ -1,0 +1,16 @@
+1. Database Object: TABLE, VIEW, SEQUENCE, INDEX, CONSTRAINT, SYNONYM, USER, ROLE
+2. Schema
+3. Naming rules, Namespace
+4. DESC - describle
+5. CREATE, ALTER (MODIFY, ADD)
+6. Data types; CHAR, VARCHAR2(n), NUMBER, DATE, LOBs
+7. CONSTRAINT: NOT NULL, UNIQUE, PRIMARY KEY, FOREIGN KEY, CHECK
+
+8. DML: INSERT, UPDATE, DELETE, SELECT
+9. TCL: COMMIT, ROLLBACK, SAVEPOINT
+10. INSERT INTO table_name (list of colums) VALUES (list of values in order)
+11. UPDATE table_name SET col = value, ... (WHERE ...)
+12. DELETE (FROM) table_name (WHERE ...)
+13. COMMIT (WORK)
+14. ROLLBACK / ROLLBACK (WORK) TO point_name
+15. SAVEPOINT point_name
