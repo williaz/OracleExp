@@ -14,3 +14,10 @@
 13. COMMIT (WORK)
 14. ROLLBACK / ROLLBACK (WORK) TO point_name
 15. SAVEPOINT point_name
+
+16. SELECT col_1, col_2 FROM table_name;
+17. Projection: Column; Selection: Row; Joining: Relation.
+18. DISTINCT / UNIQUE
+19. Psudo colums: ROWNUM(number output), ROWID(physical address)
+20. * asterisk
+21. Schema object: Table (data storage), View (saved select), Index, Sequence(counter, PK), Synonym(alias)
