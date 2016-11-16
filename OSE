@@ -21,3 +21,8 @@
 19. Psudo colums: ROWNUM(number output), ROWID(physical address)
 20. * asterisk
 21. Schema object: Table (data storage), View (saved select), Index, Sequence(counter, PK), Synonym(alias)
+
+22. WHERE: IN, LIKE(_, %)
+23. IS NULL, IS NOT NULL; Never = NULL!; NULL(highest)
+24. ORDER BY: by name, by position; ASC, DESC
+25. Alias: COL_NAME " alias name"; COL_NAME AS ALIAS_NAME
