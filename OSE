@@ -27,3 +27,6 @@
 24. IS NULL, IS NOT NULL; Never = NULL!; NULL(highest)
 26. ORDER BY: by name, by position; ASC, DESC
 27. Alias: COL_NAME " alias name"; COL_NAME AS ALIAS_NAME
+
+28. Group functions: ingore NULL - COUNT, SUM, MAX, MIN, AVG, MEDIAN
+29. GROUP BY, HAVING
