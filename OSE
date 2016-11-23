@@ -30,3 +30,12 @@
 
 28. Group functions: ingore NULL - COUNT, SUM, MAX, MIN, AVG, MEDIAN
 29. GROUP BY, HAVING
+
+30. FROM .. (INNER) JOIN .. ON
+31. FROM .. LEFT / RIGHT / FULL (OUTER) JOIN .. ON
+32. equijoins VS non-equijoins
+33. table alias
+34. FROM .. NATURAL JOIN .. = INNER JOIN, no table prefix
+35. FROM .. USING() = inner / outer join
+36. self join; multitable join
+37. Cartesian Join: FROM without join condition, NumOfRow1*NumOfRow2
