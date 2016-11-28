@@ -39,3 +39,7 @@
 35. FROM .. USING() = inner / outer join
 36. self join; multitable join
 37. Cartesian Join: FROM without join condition, NumOfRow1*NumOfRow2
+
+38. Subquery: single column, multiply column, scalar, correlated
+39. EXIST, NOT EXIST: semijoin
+40. WITH: name subquery
