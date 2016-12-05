@@ -72,3 +72,6 @@
 65. FLASHBACK TABLE tab TO SCN / TIMESTAMP / RESTORE POINT expression; <- CREATE / ALTER TABLE tab .. ENABLE ROW MOVEMENT;
 66. CREATE / DROP RESTORE POINT pt;
 67. CREATE (OR REPLACE) DIRECTORY dir_name AS dir_ref;
+
+68. UNION, UNION ALL, INTERSECT, MINUS(first - second)
+69. ORDER BY in set operators query, by position or by name refering first select query column name.
