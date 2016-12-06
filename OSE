@@ -75,3 +75,7 @@
 
 68. UNION, UNION ALL, INTERSECT, MINUS(first - second)
 69. ORDER BY in set operators query, by position or by name refering first select query column name.
+
+70. GROUP BY ROLLUP / CUBE / GROUPING SETS(..); cannot use alias in select list
+71. GROUPING(one grouped column) - return NUMBER: 1 for superaggregate, 0 for regular row
+72. GROUPING SETS use NULL to display a grand total
