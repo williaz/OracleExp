@@ -79,3 +79,10 @@
 70. GROUP BY ROLLUP / CUBE / GROUPING SETS(..); cannot use alias in select list
 71. GROUPING(one grouped column) - return NUMBER: 1 for superaggregate, 0 for regular row
 72. GROUPING SETS use NULL to display a grand total
+
+73. DESC DICTIONARY
+74. USER_, ALL_, DBA_
+75. ALL_TABLE_COMMENTS; ALL_COL_COMMENTS; COMMET ON objType(TABLE(VIEW) / COLUMN /..) name IS 'comment' / '';
+76. CAT, OBJ, TABS, COLS
+77. CONSTRAINT TYPES: P(pk), R(fk), U(UNIQUE), C(CHECK / NOT NULL); DELETE_RULE; SEARCH_CONDITION
+
