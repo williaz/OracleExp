@@ -86,3 +86,12 @@
 76. CAT, OBJ, TABS, COLS
 77. CONSTRAINT TYPES: P(pk), R(fk), U(UNIQUE), C(CHECK / NOT NULL); DELETE_RULE; SEARCH_CONDITION
 
+78. CTAS: CREATE TABLE tab (col1, col2, ..) AS subquery. INSERT, UPDATE use subquery directly.
+79. multi-table INSERT: Unconditional: INSERT ALL INTO..; 
+                          Conditional: INSERT (ALL / FIRST) WHEN .. THEN INTO.. ELSE;
+                       no sequence in subquery(se)
+80. MERGE INTO tab1 USING tab2/subquery ON condion (REQ) WHEN MATCH THEN .. WHEN NOT MATCH THEN .. WHERE ..;
+81. SELECT * FROM tab AS OF TIMESTAMP / SCN expression;
+82. SELECT * FROM tab VERSIONS BETWEEN TIMESTAMP/SCN exp1 AND exp2; MINVALUE, MAXVALUE
+83. pseudo-column : VERSIONS_STARTTIME, VERSIONS_STARTSCN, VERSIONS_ENDTIME, VERSIONS_ENDSCN, VERSIONS_XID, VERSIONS_OPERATION;
+84. 
