@@ -100,3 +100,8 @@
 86. SYS_CONNECT_BY_PATH(col, '/'): full path from root
 87. CONNECT_BY_ROOT
 88. use CONNECT BY .. AND to exclude entire sub-branch.
+
+89. .(any), ?(0/1), *(>=0), +(>=1), {n1, n2}([n1, n2])
+90. ^beginning, $end, |or
+91. prefer Character Class: [:alpha:], [:alnum:], lower, upper, digit, xdigit, blank, space, punct, graph, print, cntrl
+92. REGEXP_SUBSTR(), REGEXP_INSTR(), REGEXP_LIKE(), REGEXP_REPLACE('\2\1\3')
