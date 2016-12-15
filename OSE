@@ -105,3 +105,9 @@
 90. ^beginning, $end, |or
 91. prefer Character Class: [:alpha:], [:alnum:], lower, upper, digit, xdigit, blank, space, punct, graph, print, cntrl
 92. REGEXP_SUBSTR(), REGEXP_INSTR(), REGEXP_LIKE(), REGEXP_REPLACE('\2\1\3')
+
+93. GRANT privilege TO usr WITH ADMIN OPTION/WITH GRANT OPTION; ANY
+94. REVOKE privilege FROM usr;
+95. GRANT ALL ON - object; GRANT ALL PRIVILEGE TO - system;
+96. CREATE ROLE ..;
+97. CREATE PUBLIC SYNONYM alias FOR usr.tab;
