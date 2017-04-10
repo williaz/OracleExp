@@ -1,3 +1,5 @@
+[Oracle 12c SQL Language Reference](https://docs.oracle.com/database/121/SQLRF/toc.htm)
+
 ## 1. SELECT
 - query, subquery
 - selection(row), projection(column), joining(tables)
@@ -52,11 +54,53 @@ UNPIVOT (nums                         -- new col
 - AFTER MATCH SKIP TO NEXT ROW: search continue after the start of matched
 - AFTER MATCH SKIP TO (LAST)/FIRST variable: last/first row related to the variable
 - AFTER MATCH SKIP PAST LASTT ROW: def, search continues after the last row in matched
+```sql
+-- "V" reverse pattern
+SELECT *
+FROM stock_data_tb
+MATCH_RECOGNIZE
+(
+   ORDER BY market_date
+   MEASURES STRT.markeet_date AS start_date,
+            FINAL LAST(DOWN.market_date) AS bottom_date,
+            FINAL LAST(UP.market_date) AS end_date
+   ONE ROW PER MATCH
+   AFTER MATCH SKIP TO LAST UP
+   PATTERN (STRT DOWN+ UP+)
+   DEFINE
+       DOWN AS DOWN.close_val < PREV(DOWN.close_val),
+       UP AS UP.close_val > PREV(UP.close_val)
+)
+WHERE end_date -start_date > 10;
+```
+## 3. Scalar Function
+- one result for each table row returned
+- can be used in: SELECT(to modify the returned data); WHERE(custom condition); START WITH; CONNECT BY; HAVING
+- ABS(n): absolute value
+- ROUND(v, n): round v to n places to the right of the decimal place; def n - 0
+- TRUNC(v): cut decimal part
+- INITCAP(c): delimiter- white space/non alphanumeric
+- LOWER(c)
+- LPAD(exp1, n, exp2): padding exp1 to n length using exp2
+- TRIM(char, set): remove from the left end of char all in the set
+- ADD_MONTH(dt, i)
+- LAST_DAY(dt)
+- MONTHS_BETWEEN(dt1, dt2): float value of (dt1 - dt2)
+- TO_DATE(char, fmt, 'nlsparam'): if fmt omitted, char must be in def fmt
+- TO_NUMBER(exp, fmt, 'nlsparam')
 
-
-
-
-
+### Analytic Function
+```text
+SYNTAX:
+analytic_function([argument]) OVER (analytic_clause)
+analytic_clause: [query_partition_clause][order_by_clause [window clause]]
+```
+- SQL engine processes analytic functions immediately prior to the ORDER BY clause
+- window clause: ROWS/RANGE; BETWEEN AND; UNBOUNDED PRECEDING; UNBOUNDED FOLLOWING; CURRENT ROW
+- PERCENTILE_CONT(): continuous distribution model; PERCENTILE_DISC
+- STDDEV()
+- LAG(col, n, def_val): access to a row at a given phyical offset prior to the current row; def_val: def-null
+- LEAD(col, n, def_val): following
 
 
 
