@@ -102,6 +102,32 @@ analytic_clause: [query_partition_clause][order_by_clause [window clause]]
 - LAG(col, n, def_val): access to a row at a given phyical offset prior to the current row; def_val: def-null
 - LEAD(col, n, def_val): following
 
+## 4. Aggregate Function
+- AVG(DISTINCT/ALL exp)
+- MEDIAN(exp)
+- MIN(DISTINCT/ALL exp)
+- can appear in select list, ORDER BY, and HAVING clause
+- commonly used in conjunction with GROUP BY
+- many aggregate function take single argument will accept DISTINCT/UNIQUE, def-ALL
+- NULL values are ignored by all of agg func except COUNT(\*), GROUPING and GROUPING_ID
+- only COUNT() and REGR_COUNT() will never return a NULL
+### GROUP BY
+- GROUP BY can contain any columns of the tables in the FROM clause, regardless of whether the columns appear in the select list
+### HAVING
+- retrict the groups
+
+*GROUP BY and HAVING must after WHERE and hierarchical query, but before ORDER BY*
+
+
+
+
+
+
+
+
+
+
+
 
 
 
