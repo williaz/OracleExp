@@ -118,7 +118,26 @@ analytic_clause: [query_partition_clause][order_by_clause [window clause]]
 
 *GROUP BY and HAVING must after WHERE and hierarchical query, but before ORDER BY*
 
+## 5. JOIN
+- Equijoin: JOIN contains =
+- Non-Equijoin 
+- Self-join: table appear multi times in FROM
+- Inner join: only return rows meet the join condition
+- Full outer join: return all
+- Left outer join: return all left-side and condition-met right side
+- Right outer join
+- Cross join: Cartesian product
+- Natural join: names and data types of columns in join condition match
 
+- JOIN ... USING (col): always Equijoin
+- JOIN ... ON (exp)
+- CROSS APPLY - kinda INNER JOIN, right side of APPLY can reference col in left
+- OUTER APPLY - kinda LEFT JOIN, ...
+```sql
+SELECT a.col1, a.col2, c.col2
+FROM table_A a
+CROSS APPLY (SELECT * FROM table_B WHERE a.col1 = b.col1) c
+```
 
 
 
