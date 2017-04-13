@@ -139,8 +139,20 @@ FROM table_A a
 CROSS APPLY (SELECT * FROM table_B WHERE a.col1 = b.col1) c
 ```
 
-
-
+## 6.Subquery
+- only be used in:
+  - SELECT: scalar query act like SQL function to generate new expressions 
+  - FROM:  Inline View 
+  - WHERE: result set to filter by; Nested Subquery, up to 255 level
+  - HAVING
+  - INSERT: not use VALUES
+  - UPATE: SET
+- if subquery's column share the same name with outer query, outer query must use column reference
+- Correlated subquery: must run once for each row of the parent
+- single row operators: =, >, >=, <, <=, <>, !=
+- Multi-row operators: IN, NOT IN, ANY, ALL, EXISTS, NOT EXISTS
+- use ANY/ALL with single row operators
+- LATERAL(12c): lateral subquery can reference tables appear to the left of it in the FROM
 
 
 
