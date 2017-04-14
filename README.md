@@ -154,7 +154,15 @@ CROSS APPLY (SELECT * FROM table_B WHERE a.col1 = b.col1) c
 - use ANY/ALL with single row operators
 - LATERAL(12c): lateral subquery can reference tables appear to the left of it in the FROM
 
-
+## 7. Set operator
+- Compound query
+- UNION: removed duplicates
+- UNION ALL
+- INTERECT
+- MINUS: selected by the first query but not the second
+- Column names returned by the query are determined by the first SELECT statement
+- ORDER BY can only be placed at the very end of the compound query
+- if use column name or aliases, must use them from the first SELECT list in the compound query
 
 
 
