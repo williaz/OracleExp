@@ -1,4 +1,57 @@
 
+## OSE Basic
+- DUAL: one row, one column DUMMY
+- UPPER(s1), LOWER(s2), INITCAP(s1), LPAD(s1, n, s2), RPAD(s1, n, s2), LTRIM(s1, s2), RTRIM(s1, s2), LENGTH(s)
+- TRIM(trim_keyword char FROM source): keyword- LEADING, TRAILING, BOTH(def); 
+- CONCAT(s1, s2), s1 || s2
+- INSTR(str, substr, start_pos, occurrence)
+- SUBSTR(s, pos, len)
+- SOUNDEX(s)
+
+- ROUND(n, i), TRUNC(n, i)
+- REMAINDER(n1, n2) (may negative), MOD(n1, n2) (FLOOR)
+
+- SYSDATE
+- ROUND(dt, fmt_str), TRUNC(d, fmt)
+- NEXT_DAY(dt, weekdt_str), LAST_DAY(dt)
+- ADD_MONTHS(dt, int), MONTHS_BETWEEN(d1, d2)
+- NUMTOYMINTERVAL(n, unit): return INTERVAL YEAR TO MONTH, unit- 'YEAR'/'MONTH'
+- NUMTODSINTERVAL(n, unit): unit- 'DAY', 'HOUR', 'MINUTE', 'SECOND'
+
+- NVL(e1, e2): if e1 is NULL, return e2
+- DECODE(e,)
+- CASE
+```sql
+CASE exp 
+WHEN condition1 THEN action 
+WHEN .. THEN .. 
+ELSE def_action 
+END (AS col)
+```
+- NULLIF(e1, e2): return NULL, if same; comparing versions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Character Functions Returning Character Values
 ### CHR
 ```CHR(n USING NCHAR_CS)```
