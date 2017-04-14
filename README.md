@@ -164,6 +164,44 @@ CROSS APPLY (SELECT * FROM table_B WHERE a.col1 = b.col1) c
 - ORDER BY can only be placed at the very end of the compound query
 - if use column name or aliases, must use them from the first SELECT list in the compound query
 
+## 8. DML
+- INSERT INTO VALUES
+- UPATE SET
+- DELETE
+- MERGE: to avoid multiple INSERT, UPDATE, and DELETE DML statements.
+```sql
+MERGE
+INTO target_table_view
+USING source_table_view_subquery
+ON update_insert_condition
+WHEN MATCHED THEN
+DELETE WHERE --to clean up the target table after a merge operation
+WHEN NOT MATCHED THEN 
+
+-----------------------------------
+
+MERGE INTO bonuses D
+   USING (SELECT employee_id, salary, department_id FROM employees
+   WHERE department_id = 80) S
+   ON (D.employee_id = S.employee_id)
+   WHEN MATCHED THEN UPDATE SET D.bonus = D.bonus + S.salary*.01
+     DELETE WHERE (S.salary > 8000)
+   WHEN NOT MATCHED THEN INSERT (D.employee_id, D.bonus)
+     VALUES (S.employee_id, S.salary*.01)
+     WHERE (S.salary <= 8000);
+```
+- control transaction
+  - COMMIT
+  - ROLLBACK
+  - SAVEPOINT
+  - [SET TRANSACTION](https://docs.oracle.com/cloud/latest/db112/SQLRF/statements_10005.htm#SQLRF01705)
+  - [SET CONSTRAINT](https://docs.oracle.com/cd/B28359_01/server.111/b28286/statements_10003.htm#SQLRF01703) 
+
+
+
+
+
+
 
 
 
