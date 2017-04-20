@@ -136,7 +136,7 @@ analytic_clause: [query_partition_clause][order_by_clause [window clause]]
 ```sql
 SELECT a.col1, a.col2, c.col2
 FROM table_A a
-CROSS APPLY (SELECT * FROM table_B WHERE a.col1 = b.col1) c
+CROSS APPLY (SELECT * FROM table_B b WHERE a.col1 = b.col1) c
 ```
 
 ## 6.Subquery
