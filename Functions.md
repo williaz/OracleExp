@@ -1,5 +1,5 @@
 
-## OSE Basic
+## OSE Basic Scalar
 - DUAL: one row, one column DUMMY
 - UPPER(s1), LOWER(s2), INITCAP(s1), LPAD(s1, n, s2), RPAD(s1, n, s2), LTRIM(s1, s2), RTRIM(s1, s2), LENGTH(s)
 - TRIM(trim_keyword char FROM source): keyword- LEADING, TRAILING, BOTH(def); 
@@ -30,11 +30,39 @@ END (AS col)
 ```
 - NULLIF(e1, e2): return NULL, if same; comparing versions
 
+## OSE Basic Aggregated
+- can be called from 4 place in SELECT statement: SELECT list, ORDER BY, GROUP BY, HAVING
+- COUNT: count non-Null values; but COUNT(*) will count rows with all NULL
+```sql
+SELECT COUNT(*) AS Manager_num
+FROM HR.EMPLOYEES
+WHERE MANAGER_ID = 100;
 
+SELECT COUNT (DISTINCT MANAGER_ID) AS Manager_num
+FROM HR.EMPLOYEES;
+```
+- SUM(), MIN(), MAX(), AVG(), MEDIAN()
+```sql
+SELECT SUM(SALARY), MIN(SALARY), MAX(SALARY), ROUND(AVG(SALARY), 2), MEDIAN(SALARY)
+FROM HR.EMPLOYEES;
+```
+- RANK
+```sql
+SELECT RANK(10000) WITHIN GROUP (ORDER BY SALARY DESC)
+FROM HR.EMPLOYEES;
 
+SELECT RANK(10000, .3) WITHIN GROUP (ORDER BY SALARY DESC, COMMISSION_PCT)
+FROM HR.EMPLOYEES
+WHERE COMMISSION_PCT IS NOT NULL;
+```
 
-
-
+- FIRST/LAST: include NULL, performace improvement over self-join/view
+```sql
+SELECT MIN(SALARY) KEEP (DENSE_RANK FIRST ORDER BY COMMISSION_PCT), MAX(SALARY) KEEP (DENSE_RANK LAST ORDER BY COMMISSION_PCT)
+FROM HR.EMPLOYEES
+WHERE COMMISSION_PCT IS NOT NULL;
+```
+- GROUPING
 
 
 
