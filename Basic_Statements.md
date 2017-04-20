@@ -1,4 +1,4 @@
-*SELECT, UPDATE, INSERT, DELETE, MERGE, JOIN, UNION, UNION ALL, INTERSECT, MINUS, GROUP BY, HAVING, ORDER BY, CONNECT BY*
+*SELECT, UPDATE, INSERT, DELETE, MERGE, ~~JOIN~~, UNION, UNION ALL, INTERSECT, MINUS, ~~GROUP BY~~, ~~HAVING~~, ORDER BY, CONNECT BY*
 
 ## JOIN
 - PK and FK exist for join, but join don't requires them
@@ -68,9 +68,28 @@ FROM HR.EMPLOYEES JOIN SALARY_LEVEL
 ON SALARY BETWEEN SALARY_MIN AND SALARY_MAX;
 ```
 
-
-
-
+## GROUP BY
+- within SELECT creating 'mini-select' statement
+- only allow 1. expression specified in GROUP BY; 2. Aggregate function in select list
+- ORDER BY restricted to use only: 1. exp in GROUP BY; 2. exp in select list(pos, nam, alias); 3. any Agg func; 4. USER/SYSDATE/UID
+- **Two levels deep** is the furthest you can go with nested aggregate functions. no restriction for scalar
+```sql
+SELECT JOB_ID, ROUND (AVG(SALARY), 2), MAX(SALARY), MIN(SALARY)
+FROM HR.EMPLOYEES
+GROUP BY JOB_ID
+ORDER BY 2 DESC;
+```
+## HAVING
+- must together with GROUP BY, either order
+- only compare exp in GROUP BY or Agg func
+```
+SELECT JOB_ID, ROUND (AVG(SALARY), 2), MAX(SALARY), MIN(SALARY)
+FROM HR.EMPLOYEES
+GROUP BY JOB_ID
+HAVING MIN(SALARY) > 5000
+--HAVING JOB_ID NOT IN ('AD_PRES', 'AD_VP')
+ORDER BY 2 DESC;
+```
 
 
 
