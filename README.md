@@ -197,7 +197,56 @@ MERGE INTO bonuses D
   - [SET TRANSACTION](https://docs.oracle.com/cloud/latest/db112/SQLRF/statements_10005.htm#SQLRF01705)
   - [SET CONSTRAINT](https://docs.oracle.com/cd/B28359_01/server.111/b28286/statements_10003.htm#SQLRF01703) 
 
+## 9. DDL
 
+### objects
+- TABLE
+- INDEX
+- VIEW
+- SEQUENCE
+- SYNONYM
+- CONSTRAINT
+- USER
+### data type
+- VARCHAR2(n)
+- NVARVHAR2(n)
+- NUMBER
+- FLOAT
+- LONG
+- DATE
+- BINARY_FLOAT
+- BINARY_DOUBLE
+- TIMESTAMP
+- TIMESTAMP WITH TIME ZONE
+- TIMESTAMP WITH LOCAL TIME ZONE
+- INTERVAL DAY TO SECOND
+- INTERVAL YEAR TO MONTH
+- RAW(n)
+- LONG RAW
+- ROWID
+- UROWID
+- CHAR(n)
+- NCHAR(N)
+- CLOB
+- NCLOB
+- BLOB
+- BFILE
+
+- naming: 1-30 bytes long; begin with alphabetic; _, $, \# and alphanumeric
+
+- CREATE TABLE: **the precision and scale of a NUMBER column act as a constraint to limit the value allowed in it**
+- object name be prefixed by the schema name
+- ALTER TABLE
+- DROP TABLE
+
+### constraint
+- PRIMARY KEY
+- UNIQUE
+- NOT NULL
+- FOREIGN KEY
+- CHECK
+
+**TRUNCATE vs DELETE**
 
 
 
