@@ -1,4 +1,20 @@
-*SELECT, UPDATE, INSERT, DELETE, MERGE, ~~JOIN~~, ~~UNION, UNION ALL, INTERSECT, MINUS,~~ ~~GROUP BY~~, ~~HAVING~~, ORDER BY, CONNECT BY*
+*SELECT, ~~UPDATE, INSERT, DELETE,~~ MERGE, WHERE, ~~JOIN~~, ~~UNION, UNION ALL, INTERSECT, MINUS,~~ ~~GROUP BY~~, ~~HAVING~~, ORDER BY, CONNECT BY*
+## INSERT
+- always identify column names in an INSERT statement, but no need in order
+- runtime err for violation of a constraint
+```sql
+INSERT INTO tb/vw VALUES(...cols)
+```
+## UPATE
+- if violating any constraint, entire UPDATE will be rejected
+```sql
+UPDATE tb/vw SET .. (WHERE ..)
+```
+
+## DELETE
+```sql
+DELETE FROM tb (WHERE ..)
+```
 
 ## JOIN
 - PK and FK exist for join, but join don't requires them
@@ -97,7 +113,7 @@ ORDER BY 2 DESC;
 - not use BLOB/CLOB
 - only use ORDER BY in the final SELECT statement, By position or By **first** SELECT list
 - equal precedence
-```js
+```sql
 CREATE OR REPLACE VIEW manager
 AS (
 SELECT DISTINCT ae. EMPLOYEE_ID, ae.FIRST_NAME, ae.LAST_NAME, ae.EMAIL
