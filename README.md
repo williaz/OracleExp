@@ -247,6 +247,52 @@ MERGE INTO bonuses D
 - CHECK
 
 **TRUNCATE vs DELETE**
+1. TRUNCATE is faster as DELETE has UNDO info overhead
+2. TRUNCATE can't use with WHERE
+3. TRUNCATE is DDL, can't be reversed
+
+### 12c
+- Sequence can be used for Column DEFAULT, both CURRVAL and NEXTVAL
+- INVISIBLE column: only show if specifically referenced
+- virtual columns: derived from other columns in the same table, not possible directly update
+- IDENTITY column: numeric data type
+
+## 10. Creating other Schema objects- view, sequence, synonym
+
+### VIEW
+- cannot delete or modify data via a view if it has aggregated data or contains the DISTINCT/UNIQUE 
+- cannot insert if not contain NOT NULL col of the base table
+- to get invisible column of the base table, must explicitly reference, and get fully visible
+
+### SEQUENCE
+- generating number is independent of whether the transaction is committed or rolled back
+- START WITH: 1
+- INCREMENT BY:1
+- MINVALUE: 1
+- MAXVALUE: 1
+- CYCLE: NOCYCLE
+- CACHE: CACHE 20
+
+### SYNONYM
+- dropping a synonym has no effect on teh object it pointed to
+- PRIVATE: SYNONYM
+- PUBLIC: PUBLIC SYNONYM
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
