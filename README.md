@@ -268,8 +268,8 @@ MERGE INTO bonuses D
 - generating number is independent of whether the transaction is committed or rolled back
 - START WITH: 1
 - INCREMENT BY:1
-- MINVALUE: 1
-- MAXVALUE: 1
+- MINVALUE: NOMINVALUE
+- MAXVALUE: NOMAXVALUE
 - CYCLE: NOCYCLE
 - CACHE: CACHE 20
 
