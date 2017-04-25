@@ -15,6 +15,13 @@ UPDATE tb/vw SET .. (WHERE ..)
 ```sql
 DELETE FROM tb (WHERE ..)
 ```
+### _DML in VIEW_
+- INSERT, UPDATE, DELETE can't be used in VIEW if the view:
+  - Omission of any required columns
+  - GROUP BY or agg or hierarchical
+  - DISTINCT
+  - involved in more than one tables like join, subsquery
+- sum: if the view provides row level (not aggregateed) access to one and only one tbale and includes the ability to access the required columns in that table, then you can use INSERT, UPDATE, and/or DELETE on the view to effect changes to the underlying table.
 
 ## JOIN
 - PK and FK exist for join, but join don't requires them
