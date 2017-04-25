@@ -278,7 +278,16 @@ MERGE INTO bonuses D
 - PRIVATE: SYNONYM
 - PUBLIC: PUBLIC SYNONYM
 
-
+## 11. Dictionary view
+- DBA\_: across all schemas, Admin
+- ALL\_: based on privilege
+- USER\_: only exist in the schema
+- V$: dynamic performance view for local
+- GV$
+- DICTIONARY
+```sql
+SELECT * FROM DICTIONARY;
+```
 
 
 
