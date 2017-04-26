@@ -288,7 +288,17 @@ MERGE INTO bonuses D
 ```sql
 SELECT * FROM DICTIONARY;
 ```
+## 12. Privilege, ROLE
+- ANY: system privilege with ANY- schema-specific; without-not schema-specific
+- PUBLIC: all users share the privilege
+- WITH ADMIN OPTION: can grant the system privilege to other users in turn; revoke does not cascade
+- WITH GRANT OPTION: grant the object privilege to other user; revoke does cascade
+```sql
+CREATE ROLE HR_SUPVSR;
+GRANT SELECT, UPDATE, DELETE ON HR.EMPLOYEES TO HR_SUPVSR;
 
+SELECT * FROM USER_TAB_PRIVS;
+```
 
 
 
