@@ -223,6 +223,72 @@ DROP SYNONYM IX_ST;
 - exists independently of the obj in refer to
 - no ALTER
 
+## ALTER
+
+### ALTER TABLE
+```sql
+ALTER TABLE tab_name clause(ADD/MODIFY)
+```
+### ADD
+- order: datatype, DEFAULT, CONSTRAINT
+- require data type
+```sql
+CREATE TABLE orders (
+ORD_ID NUMBER,
+SALES_ID NUMBER
+);
+
+SELECT * 
+FROM USER_TAB_COLUMNS
+WHERE TABLE_NAME = 'ORDERS';
+
+ALTER TABLE orders ADD(ORD_PRICE NUMBER);
+
+ALTER TABLE orders ADD(CLIENT_ID NUMBER NOT NULL, ORD_NUM NUMBER DEFAULT 0);
+```
+### MODIFY
+- only one of datatype, DEFAULT, CONSTRAINT is required
+```sql
+ALTER TABLE orders MODIFY (ORD_ID NOT NULL);
+--reverse back
+ALTER TABLE orders MODIFY (ORD_ID NULL);
+```
+- you cannot modify a column to take on properties that conflict with any existing data that is already present in the column
+
+### RENAME COLUMN
+```sql
+ALTER TABLE orders RENAME COLUMN CLIENT_ID TO CLIENTS_ID;
+```
+### DROP COLUMN
+- any constraints or indices on the column will also be dropped when you drop the column
+- a table must have at least one column
+```sql
+ALTER TABLE orders DROP COLUMN ORD_NUM;
+
+ALTER TABLE orders DROP (SALES_ID, CLIENTS_ID);
+```
+- if a column is referenced by a FK constraint in anther table, preceding syntax would be fail
+- CASCADE CONSTRAINT????
+```sql
+DROP TABLE order_returns;
+CREATE TABLE order_returns (
+ORD_ID NUMBER PRIMARY KEY,
+RTN_DATE VARCHAR2(20),
+CONSTRAINT ret_fk FOREIGN KEY (ORD_ID) REFERENCES orders (ORD_ID)
+);
+
+SELECT * 
+FROM USER_TAB_COLUMNS
+WHERE TABLE_NAME = UPPER('order_returns');
+
+ALTER TABLE order_returns
+DROP COLUMN ORD_ID; 
+
+ALTER TABLE orders
+DROP COLUMN ORD_ID; 
+```
+
+
 
 
 
