@@ -46,6 +46,8 @@ SELECT INTERVAL '10 0:12:59' DAY TO SECOND FROM dual; --ORA-01852: seconds must 
 
 ### CONSTRAINT creation
 - NOT NULL cannot be created "out of line"
+- ALTER MODIFY - in-line - focus on column; 
+- ALTER ADD - out-of-line - focus on constraint - only way for creating composite constraints
 ```sql
 -- CREATE TABLE 
 -- 1. in line
@@ -210,6 +212,24 @@ CREATE UNIQUE INDEX IX_STATUS ON VENDORS(STATUS);
 **UNIQUE vs UNIQUE INDEX**
 - A constraint has different meaning to an index. It gives the optimiser more information and allows you to have foreign keys on the column, whereas a unique index doesn't.
 
+#### USING INDEX
+- for creating indices can be used to specify an existing index by appending a constraint specification with "USING INDEX idx_name" and nothing else.
+
+#### Function-based index
+- any expression will be accepted
+```sql
+DROP TABLE VENDORS;
+CREATE TABLE VENDORS (
+VEND_ID NUMBER PRIMARY KEY,
+VEND_NAME VARCHAR2(20),
+STATUS NUMBER(1) NOT NULL,
+VEND_AREA VARCHAR2(10) UNIQUE,
+RENT NUMBER NOT NULL
+);
+CREATE INDEX rent_round ON VENDORS (ROUND(RENT, 2));
+SELECT * FROM USER_INDEXES;
+```
+
 ### SYNONYM
 - when creating SYNONYM for another obj, that obj doesn't hvae to exist already, or having the privilege on that object
 - private SYNONYM is own by the user account created it, and def only visible within it
@@ -268,9 +288,14 @@ ALTER TABLE orders DROP COLUMN ORD_NUM;
 ALTER TABLE orders DROP (SALES_ID, CLIENTS_ID);
 ```
 - if a column is referenced by a FK constraint in anther table, preceding syntax would be fail
-- CASCADE CONSTRAINT????
+- CASCADE CONSTRAINT
 ```sql
 DROP TABLE order_returns;
+DROP TABLE orders;
+CREATE TABLE orders (
+ORD_ID NUMBER PRIMARY KEY,
+SALES_ID NUMBER
+);
 CREATE TABLE order_returns (
 ORD_ID NUMBER PRIMARY KEY,
 RTN_DATE VARCHAR2(20),
@@ -281,12 +306,93 @@ SELECT *
 FROM USER_TAB_COLUMNS
 WHERE TABLE_NAME = UPPER('order_returns');
 
-ALTER TABLE order_returns
-DROP COLUMN ORD_ID; 
+ALTER TABLE orders
+DROP COLUMN ORD_ID;
+-- ORA-12992: cannot drop parent key column 
 
 ALTER TABLE orders
+DROP COLUMN ORD_ID CASCADE CONSTRAINTS;
+
+ALTER TABLE order_returns
 DROP COLUMN ORD_ID; 
 ```
+### UNUSED
+- once UNUSED, never again available, any constraints or indices on the column will also be dropped, never be recovered(ROLLBACK no effect)
+- better performance than DROP
+- still be counted as the number of columns(limit: 1000)
+- DROP UNUSED COLUMNS
+```sql
+ALTER TABLE order_returns
+SET UNUSED COLUMN RTN_DATE; 
+
+SELECT * FROM USER_UNUSED_COL_TABS; -- just count
+
+ALTER TABLE order_returns DROP UNUSED COLUMNS; -- DROP all unused 
+```
+### DROP PRIMARY KEY
+- CASCADE: def-not cascade
+- KEEP INDEX/DROP INDEX: def-DROP INDEX
+```sql
+ALTER TABLE orders
+DROP PRIMARY KEY; 
+-- ORA-02273: this unique/primary key is referenced by some foreign keys 
+
+ALTER TABLE orders
+DROP PRIMARY KEY CASCADE;
+```
+### DROP UNIQUE
+```sql
+ALTER TABLE tab_name DROP UNQIUE (col1, col2, ..) opts;
+```
+### DROP CONSTRAINT
+```sql
+ALTER TABLE tab_name DROP CONSTRAINT const_name (CASCADE)
+```
+### DISABLE CONSTRAINT
+- for large data, disable FK
+- Child rows can always be deleted without regard fpr the existence of parent rows
+```sql
+ALTER TABLE tab_name DISABLE/ENABLE (VALIDATE/NOVALIDATE) PRIMARY KEY/UNIQUE/CONSTRAINT const_name;
+ALTER TABLE tab_name MODIFY PRIMARY KEY/UNIQUE/CONSTRAINT const_name DISABLE;
+```
+- ENABLE fail for FK orphans
+- DISABLE PRIMARY KEy CASCADE; ENABLE each, no with CASCADE
+- ENABLE VALIDATE = ENABLE; DISABLE NOVALIDATE = DISABLE ???
+
+## DROP
+### DROP TABLE
+```sql
+DROP TABLE tab_name; -- will fail, even FK is disabled
+DROP TABLE tab_name CASCADE CONSTRAINTS; -- FK
+```
+### ON DELETE
+- ON DELETE CASCADE
+- ON DELETE SET NULL
+```sql
+SELECT * FROM USER_CONSTRAINTS;
+
+ALTER TABLE order_returns 
+DROP CONSTRAINT RET_FK;
+
+ALTER TABLE order_returns
+ADD CONSTRAINT RET_FK_D FOREIGN KEY(ORD_ID) REFERENCES orders (ORD_ID) ON DELETE CASCADE;
+
+```
+### DEFERRABLE
+- constraint default- NOT DEFERRABLE
+- once commit, auto change back from DEFERRED to IMMEDIATE
+```sql
+SET CONSTRAINT const_name/ALL DEFERRED/IMMEDIATE;
+```
+### RENAME CONSTRAINT
+```sql
+ALTER TABLE ORDERS
+RENAME CONSTRAINT SYS_C002540550 TO ORD_ID_PK;
+```
+
+
+
+
 
 
 
