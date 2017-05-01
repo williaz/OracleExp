@@ -158,10 +158,35 @@ SELECT EMPLOYEE_ID, EMAIL FROM HR.EMPLOYEES;
 -- 0
 ```
 
-
-
-
-
+## Subquery
+- a SELECT statement
+- to Solve:
+  - Complex multistage queries
+  - Creating populated tables: in CREATE TABLE
+  - Large data set manipulation: UPDATE, INSERT
+  - Creating named views: CREATE VIEW .. AS
+  - Dynamic view definition: inline view
+  - Dynamic expression definition with scalar subqueries: single value as expression
+- ensure a "single-row" query
+  - WHERE
+  - return an aggregate function
+  - AND ROWNUM < 2
+- LIKE(\_ %),
+- IN, NOT IN, = ANY/SOME, > ALL 
+```sql
+SELECT * FROM HR.EMPLOYEES
+WHERE EMPLOYEE_ID =
+(
+SELECT MANAGER_ID FROM HR.EMPLOYEES
+WHERE EMPLOYEE_ID = 116
+);
+```
+- Scalar subquery must always be enclosed in parentheses. 
+- Scalar CANNOT be used in
+```sql
+SELECT FIRST_NAME, LAST_NAME, (SELECT COUNTRY_NAME FROM HR.COUNTRIES WHERE COUNTRY_ID = 'CA') AS hometown 
+FROM HR.EMPLOYEES WHERE ROWNUM < 5;
+```
 
 
 
