@@ -1,4 +1,4 @@
-*CREATE, ALTER, DROP *
+*CREATE, ALTER, DROP, RENAME, TRUNCATE, GRANT, REVOKE, FLASHBACK, PURGE, COMMENT *
 
 ## Naming
 - a1$_#
@@ -389,12 +389,76 @@ SET CONSTRAINT const_name/ALL DEFERRED/IMMEDIATE;
 ALTER TABLE ORDERS
 RENAME CONSTRAINT SYS_C002540550 TO ORD_ID_PK;
 ```
+## FLASHBACK
+- recover complete table still retained in the "recycle bin"
+- recover the corresponding indexes(no bitmap join indexes???) and constraints(no FK)  with system assigned names
+- same name, retrieve last dropped first
+- BEFORE DROP
+- RENAME TO
+```sql
+FLASHBACK TABLE tab_name TO..
+FLASHBACK TABLE tab1, tab2, tab3 TO.. -- as a whole, fail together
+CREATE TABLE orders (
+ORD_ID NUMBER PRIMARY KEY,
+SALES_ID NUMBER
+);
 
+CREATE SEQUENCE ord_id_seq;
+INSERT INTO orders VALUES(ord_id_seq.NEXTVAL, ord_id_seq.CURRVAL);
+SELECT * FROM orders;
 
+ALTER SESSION SET recyclebin = ON; -- OFF
+DROP TABLE orders;
 
+FLASHBACK TABLE orders TO BEFORE DROP;
+SELECT * FROM USER_RECYCLEBIN; -- RECYCLEBIN
 
+FLASHBACK TABLE tab TO SCN scn_exp;
+FLASHBACK TABLE tab TO TIMESTAMP tsp_exp;
+FLASHBACK TABLE tab TO RESTORE POINT pt_exp;
+```
+- SCN: system change number(recommended)
+### ENABLE ROW MOVEMENT
+- def- not row movement
+- cannot use FLASHBACK TABLE to restore older data to an existing table if its structure alted
+```sql
+CREATE/ALTER TABLE .... ENABLE ROW MOVEMENT;
+```
+### Marking time
+- SCN: increment for every committed transaction
+```sql
+-- DBA privilege
+SELECT DBMS_FLASHBACK.GET_SYSTEM_CHANGE_NUMBER FROM dual; 
+SELECT CURRENT_SCN FROM V$DATABASE;
 
+SELECT ORA_ROWSCN, ORD_ID,Sales_ID FROM orders; -- SCN for given rows
+SELECT TO_TIMESTAMP('2017-04-30 14:30:03.1213','RRRR-MM-DD HH24:MI:SS:FF') FROM dual; --timestamp
 
+-- roughly conversion
+SELECT SCN_TO_TIMESTAMP(1244405951) FROM dual;
+SELECT TIMESTAMP_TO_SCN(SYSTIMESTAMP) NOW FROM dual;--1244481418
+
+- Moment
+CREATE RESTORE POINT order_01;
+DROP RESTORE POINT order_01;
+
+SELECT * FROM V$RESTORE_POINT;
+```
+
+## PURGE
+- permanenetly removes from Recycle Bin
+```sql
+PURGE TABLE orders;
+```
+
+## External table
+- its metadata is stored inside the database, and the data it contains is outside of the database
+- only SELECT
+- no INDEX, CONSTRAINT, UNUSED
+```sql
+CREATE (OR REPLACE) DIRECTORY dir_name AS dir_ref; -- looks to the OS host the Oracle server
+GRANT READ/WRITE ON DIRECTORY dir_name TO usr;
+```
 
 
 
