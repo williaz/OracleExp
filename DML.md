@@ -183,17 +183,86 @@ WHERE EMPLOYEE_ID = 116
 ```
 - Scalar subquery must always be enclosed in parentheses. 
 - Scalar CANNOT be used in
+  1. CHECK
+  2. GROUP BY
+  3. HAVING
+  4. function-based index
+  5. DEFAULT
+  6. RETURNING of any DML
+  7. WHEN condition of CASE
+  8. START WITH and CONNECT BY
 ```sql
 SELECT FIRST_NAME, LAST_NAME, (SELECT COUNTRY_NAME FROM HR.COUNTRIES WHERE COUNTRY_ID = 'CA') AS hometown 
 FROM HR.EMPLOYEES WHERE ROWNUM < 5;
+
+CREATE TABLE workers
+AS 
+(
+SELECT * FROM HR.EMPLOYEES
+WHERE ROWNUM < 30
+);
 ```
-
-
-
-
-
-
-
+### Correlated subquery
+- Correlated subquery is executing once for each value that the parent query finds for each row
+- Correlated subquery can exist in SELECT, UPDATE, and DELETE.
+```sql
+SELECT * FROM HR.EMPLOYEES em
+WHERE SALARY = 
+(
+SELECT MAX(SALARY) FROM HR.EMPLOYEES
+GROUP BY MANAGER_ID
+HAVING MANAGER_ID = em.MANAGER_ID
+);
+```
+#### UPDATE
+- in SET or WHERE
+```sql
+UPDATE workers w
+SET SALARY = SALARY + (
+SELECT SALARY FROM workers WHERE EMPLOYEE_ID = w.MANAGER_ID
+)/10 + 0.4
+WHERE (
+SELECT SALARY FROM workers WHERE EMPLOYEE_ID = w.MANAGER_ID
+) - SALARY < 5000;
+```
+#### DELETE
+```sql
+DELETE FROM workers w1
+WHERE w1.SALARY = (
+SELECT MIN(w2.SALARY) FROM workers w2 WHERE w1.MANAGER_ID = w2.MANAGER_ID
+);
+```
+### EXIST
+- Semijoin, a SELECT statement that uses the EXISTS to compare rows in atbale with rows in another table
+```sql
+-- boss has workers
+SELECT * FROM workers w1
+WHERE EXISTS (
+SELECT * FROM workers w2
+WHERE w2.MANAGER_ID = w1.EMPLOYEE_ID
+);
+```
+### WITH
+- subquery factoring clause
+- must before SELECT
+- name isn't recognized within the subquery itself
+- not database objects
+```sql
+WITH
+  managers AS(
+  SELECT DISTINCT * FROM HR.EMPLOYEES
+  WHERE EMPLOYEE_ID = 100
+  ),
+  members AS(
+  SELECT DISTINCT * FROM HR.EMPLOYEES
+  WHERE EMPLOYEE_ID != 100
+  )
+SELECT * FROM members
+WHERE MANAGER_ID = (
+SELECT EMPLOYEE_ID FROM members 
+WHERE ROWNUM <2
+);
+```
 
 
 
