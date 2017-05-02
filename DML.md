@@ -232,7 +232,8 @@ WHERE w1.SALARY = (
 SELECT MIN(w2.SALARY) FROM workers w2 WHERE w1.MANAGER_ID = w2.MANAGER_ID
 );
 ```
-### EXIST
+### EXISTS
+- EXISTS, NOT EXISTS
 - Semijoin, a SELECT statement that uses the EXISTS to compare rows in atbale with rows in another table
 ```sql
 -- boss has workers
