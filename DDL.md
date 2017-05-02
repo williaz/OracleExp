@@ -209,6 +209,7 @@ CREATE UNIQUE INDEX IX_STATUS ON VENDORS(STATUS);
   - function will prevent, unless it is function-based index
 - no more tha 5 index on the aveerage table in a trasaction-based application
 - Composite index will be used even be called the first col, Skip Scanning
+
 **UNIQUE vs UNIQUE INDEX**
 - A constraint has different meaning to an index. It gives the optimiser more information and allows you to have foreign keys on the column, whereas a unique index doesn't.
 
@@ -357,7 +358,12 @@ ALTER TABLE tab_name MODIFY PRIMARY KEY/UNIQUE/CONSTRAINT const_name DISABLE;
 ```
 - ENABLE fail for FK orphans
 - DISABLE PRIMARY KEy CASCADE; ENABLE each, no with CASCADE
-- ENABLE VALIDATE = ENABLE; DISABLE NOVALIDATE = DISABLE ???
+- ENABLE ensures that all incoming data conforms to the constraint
+- DISABLE allows incoming data, regardless of whether it conforms to the  constraint
+- VALIDATE ensures that existing data conforms to the constraint
+- NOVALIDATE means that some existing data may not conform to the constraint
+- DISABLE VALIDATE disables the constraint, drops the index on the constraint, and disallows any modification of the constrained columns.
+- ENABLE VALIDATE = ENABLE; DISABLE NOVALIDATE = DISABLE
 
 ## DROP
 ### DROP TABLE
@@ -380,6 +386,7 @@ ADD CONSTRAINT RET_FK_D FOREIGN KEY(ORD_ID) REFERENCES orders (ORD_ID) ON DELETE
 ```
 ### DEFERRABLE
 - constraint default- NOT DEFERRABLE
+- DEFFERED: check after COMMIT
 - once commit, auto change back from DEFERRED to IMMEDIATE
 ```sql
 SET CONSTRAINT const_name/ALL DEFERRED/IMMEDIATE;
