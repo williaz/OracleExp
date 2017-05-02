@@ -300,12 +300,44 @@ GRANT SELECT, UPDATE, DELETE ON HR.EMPLOYEES TO HR_SUPVSR;
 SELECT * FROM USER_TAB_PRIVS;
 ```
 
+## 13. Schema Object
+### CONSTRAINT
+- def - NOT DEFERABLE; DEFERRABLE
+- def - INITIALLY IMMEDIATE; INITAILLY DEFERRED(end of transaction)
+- ENABLE, DISABLE, VALIDATE, NOVALIDATE
+### INDEX
+- Normal index
+- Bitmap index: cannot be UNIQUE
+- Partitioned index
+- Function-based index
+- Index are never used for !=, NOT IN, IS NULL
+```sql
+ALTER INDEX idx_name REBUILD; -- after a lot of data changes
+```
+- UNIQUE: an index with the same name as the constraint will be auto-created
+- Invisible index: Test effection, INVISIBLE/VISIBLE
+- when more than a single index exists for a given set of columns, only one can be visible at any given time
+### UNUSED
+```sql
+ALTER TABLE tab DROP COLUMN col;
+ALTER TABLE tab SET UNUSED COLUMN col;
 
+ALTER TABLE tab DROP(col);
+ALTER TABLE tab SET UNUSED(col);
 
+ALTER TABLE tab DROP UNUSED COLUMNS;
+```
+### FLASHBACK
+#### AS OF TIMESTAMP/SCN
+#### VERSIONS BETWEEN TIMESTAMP
+#### FROM FLASHBACK_TRANSACTION_QUERY
 
-
-
-
+### External table
+- TYPE
+- DEFAULT DIRECTORY
+- ACCESS PARAMETERS
+- LOCATION
+- ORACLE must scan every single row in the file for queries.
 
 
 
