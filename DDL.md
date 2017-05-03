@@ -19,6 +19,10 @@ CREATE ROLE
 CREATE PUBLIC SYNONYM
 ```
 
+### CTAS
+- CREATE TABLE AS SELECT
+- use the source table's column definitions, keep NOT NULL, but discard other objects
+
 ### built-in Data Type
 - CHAR(n): n **fixed-length** alphanumeric, padding unused with blanks
 - VARCHAR2(n): max length n, **n [1, 4000] required**
@@ -42,7 +46,7 @@ SELECT INTERVAL '3000' YEAR FROM dual; --ORA-01873: the leading precision of the
 SELECT INTERVAL '10:22' MINUTE TO SECOND FROM dual;
 SELECT INTERVAL '10 0:12:59' DAY TO SECOND FROM dual; --ORA-01852: seconds must be between 0 and 59
 ```
-- BLOB/CLOB/NCLOB: **cannot be PK, nore used with DISTINCT, GROUP BY, ORDER BY, joins**
+- BLOB/CLOB/NCLOB: **cannot be PK, nor used with DISTINCT, GROUP BY, ORDER BY, joins**
 
 ### CONSTRAINT creation
 - NOT NULL cannot be created "out of line"
