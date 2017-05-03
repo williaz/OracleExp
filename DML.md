@@ -102,6 +102,41 @@ FROM HR.EMPLOYEES
 GROUP BY JOB_ID
 ORDER BY 2 DESC;
 ```
+## ROLLUP
+- used after GROUP BY
+- used to compute a subtotal/total for each group
+```sql
+SELECT DEPARTMENT_ID, MANAGER_ID, JOB_ID, SUM(SALARY)
+FROM HR.EMPLOYEES
+GROUP BY DEPARTMENT_ID, MANAGER_ID, JOB_ID
+ORDER BY DEPARTMENT_ID, MANAGER_ID, JOB_ID;
+
+SELECT DEPARTMENT_ID, MANAGER_ID, JOB_ID, SUM(SALARY)
+FROM HR.EMPLOYEES
+GROUP BY ROLLUP(DEPARTMENT_ID, MANAGER_ID, JOB_ID)
+ORDER BY DEPARTMENT_ID, MANAGER_ID, JOB_ID;
+```
+
+## CUBE
+- three-dimentional version of ROLLUP
+```sql
+SELECT DEPARTMENT_ID, MANAGER_ID, JOB_ID, SUM(SALARY)
+FROM HR.EMPLOYEES
+GROUP BY CUBE(DEPARTMENT_ID, MANAGER_ID, JOB_ID)
+ORDER BY DEPARTMENT_ID, MANAGER_ID, JOB_ID;
+```
+
+## GROUPING
+- only valid in a SELECT that uses a GROUP BY
+- to differenitate between superaggregate row and regular rows, key for providing customized behavior(DECODE)
+- 1 for subtotal/total
+
+## GROUPING SETS
+- to selectively choose particular group of data, ignoring anu unwanted groups
+- each set() specifies GROUP BY clause groups
+- as if running several GROUP BY at once and combine
+- NULL for a Grand Total
+
 ## HAVING
 - must together with GROUP BY, either order
 - only compare exp in GROUP BY or Agg func
