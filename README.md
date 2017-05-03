@@ -330,6 +330,7 @@ ALTER TABLE tab DROP UNUSED COLUMNS;
 ### FLASHBACK
 #### AS OF TIMESTAMP/SCN
 #### VERSIONS BETWEEN TIMESTAMP
+- VERSIONS BETWEEN SCN MINVALUE AND MAXVALUE
 #### FROM FLASHBACK_TRANSACTION_QUERY
 
 ### External table
@@ -339,14 +340,81 @@ ALTER TABLE tab DROP UNUSED COLUMNS;
 - LOCATION
 - ORACLE must scan every single row in the file for queries.
 
+## 14. DML for large data
+### subquery with SELECT, INSERT, UPDATE, and DELETE
+### Multitable INSERT
+- often used in ETL(Extract-Transfrom-Load)
+- multitable inserts cannot be performed on view or remote tables
+- conditional INSERT FIRST, insert first meet WHEN condition; 
+- conditional INSERT ALL, insert all meet WHEN conditions; 
+
+```sql
+SELECT COUNT(*) FROM HR.EMPLOYEES; --107
+DROP TABLE emp1;
+DROP TABLE emp2;
+DROP TABLE emp3;
+CREATE TABLE emp1
+AS 
+SELECT FIRST_NAME, SALARY FROM HR.EMPLOYEES WHERE EMPLOYEE_ID =100;
+
+CREATE TABLE emp2
+AS 
+SELECT FIRST_NAME, SALARY FROM HR.EMPLOYEES WHERE EMPLOYEE_ID =103;
+
+CREATE TABLE emp3
+AS 
+SELECT FIRST_NAME, SALARY FROM HR.EMPLOYEES WHERE EMPLOYEE_ID =107;
+
+TRUNCATE TABLE emp1;
+TRUNCATE TABLE emp2;
+TRUNCATE TABLE emp3;
+
+INSERT FIRST
+  WHEN SALARY > 10000 THEN
+    INTO emp1
+    VALUES(FIRST_NAME, SALARY)
+  WHEN SALARY >5000 THEN
+    INTO emp2
+    VALUES(FIRST_NAME, SALARY)
+  ELSE
+    INTO emp3
+    VALUES(FIRST_NAME, SALARY)
+SELECT FIRST_NAME, SALARY FROM HR.EMPLOYEES h;
+  
+
+SELECT COUNT(*) FROM emp1; --15
+SELECT COUNT(*) FROM emp2; --43
+SELECT COUNT(*) FROM emp3; --49
 
 
+TRUNCATE TABLE emp1;
+TRUNCATE TABLE emp2;
+TRUNCATE TABLE emp3;
 
+INSERT ALL
+  WHEN SALARY > 10000 THEN
+    INTO emp1
+    VALUES(FIRST_NAME, SALARY)
+  WHEN SALARY >5000 THEN
+    INTO emp2
+    VALUES(FIRST_NAME, SALARY)
+  ELSE
+    INTO emp3
+    VALUES(FIRST_NAME, SALARY)
+SELECT FIRST_NAME, SALARY FROM HR.EMPLOYEES h;
 
+SELECT COUNT(*) FROM emp1; --15
+SELECT COUNT(*) FROM emp2; --58
+SELECT COUNT(*) FROM emp3; --49
+```
+- Pivot INSERT: converting columns to rows (unconditional INSERT ALL)
 
+### MERGE
+- cannot alter the column that is referenced in the ON clause
 
-
-
+### DEFAULT ON NULL
+- insert will bypass DEFAULT value for explicit NULL, DEFAULT ON NULL fix it
+- DEFAULT ON NULL does not apply for UPDATE
 
 
 
