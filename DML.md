@@ -5,12 +5,75 @@
 ```sql
 INSERT INTO tb/vw VALUES(...cols)
 ```
+### INSERT with subquery
+```sql
+DROP TABLE workers;
+CREATE TABLE workers
+AS
+SELECT EMPLOYEE_ID, LAST_NAME, SALARY 
+FROM HR.EMPLOYEES
+WHERE EMPLOYEE_ID < 150;
+
+
+SELECT * FROM workers;
+
+CREATE SEQUENCE seq_wk START WITH 500;
+
+INSERT INTO workers
+(EMPLOYEE_ID, LAST_NAME, SALARY)
+SELECT seq_wk.NEXTVAL, LAST_NAME, SALARY
+FROM HR.EMPLOYEES
+WHERE EMPLOYEE_ID BETWEEN 200 AND 250;
+```
+### multitable INSERT
+- only use with a table
+- error for sequence generator in subquery
+- ALL is required for unconditional
+- ALL is def for conditional, ALL/FIRST
+- if there is no column ist in the INTO clause, the subquery's select list must match the columns in the table of the INTO clause
+- Table aliases in the subquery of a multitable INSERT are not recognized outside in the rest of the INSERT-> use column alias
+```sql
+DROP TABLE phone_book;
+CREATE TABLE phone_book
+AS
+SELECT LAST_NAME, PHONE_NUMBER FROM HR.EMPLOYEES
+WHERE ROWNUM < 2;
+
+TRUNCATE TABLE phone_book;
+
+DROP TABLE email_book;
+CREATE TABLE email_book
+AS
+SELECT LAST_NAME, EMAIL FROM HR.EMPLOYEES
+WHERE ROWNUM < 2;
+
+DELETE FROM email_book;
+
+INSERT ALL
+    INTO phone_book VALUES(LAST_NAME, PHONE_NUMBER)
+    INTO email_book VALUES(LAST_NAME, EMAIL ||'@HR.COM')
+  SELECT * FROM HR.EMPLOYEES;
+  
+SELECT * FROM phone_book;
+SELECT * FROM email_book;
+
+```
+### Pivot INSERT
+
 ## UPATE
 - if violating any constraint, entire UPDATE will be rejected
 ```sql
 UPDATE tb/vw SET .. (WHERE ..)
 ```
 
+### UPDATE with correlated subquery
+```sql
+UPDATE workers wk
+SET wk.SALARY =  0.5 + NVL( 1.1*(
+SELECT em.SALARY FROM HR.EMPLOYEES em
+WHERE em.EMPLOYEE_ID = wk.EMPLOYEE_ID
+), wk.SALARY);
+```
 ## DELETE
 ```sql
 DELETE FROM tb (WHERE ..)
@@ -22,6 +85,32 @@ DELETE FROM tb (WHERE ..)
   - DISTINCT
   - involved in more than one tables like join, subsquery
 - sum: if the view provides row level (not aggregateed) access to one and only one tbale and includes the ability to access the required columns in that table, then you can use INSERT, UPDATE, and/or DELETE on the view to effect changes to the underlying table.
+
+## MERGE
+- cannot update column in the ON condition
+- DELETE only affect rows that are a result of the completed "update clause"
+```sql
+MERGE INTO workers wk
+  USING HR.EMPLOYEES em
+  ON (em.EMPLOYEE_ID = wk.EMPLOYEE_ID)
+  WHEN MATCHED THEN 
+     UPDATE SET wk.SALARY = em.SALARY
+  WHEN NOT MATCHED THEN INSERT
+     VALUES (em.EMPLOYEE_ID, em.LAST_NAME, em.SALARY)
+     WHERE em.EMPLOYEE_ID BETWEEN 200 AND 400
+;
+
+MERGE INTO workers wk
+  USING HR.EMPLOYEES em
+  ON (em.EMPLOYEE_ID = wk.EMPLOYEE_ID)
+  WHEN MATCHED THEN 
+     UPDATE SET wk.SALARY = em.SALARY
+     DELETE WHERE wk.EMPLOYEE_ID < 150
+  WHEN NOT MATCHED THEN INSERT
+     VALUES (em.EMPLOYEE_ID, em.LAST_NAME, em.SALARY)
+     WHERE em.EMPLOYEE_ID BETWEEN 200 AND 400
+;
+```
 
 ## JOIN
 - PK and FK exist for join, but join don't requires them
@@ -134,7 +223,7 @@ ORDER BY DEPARTMENT_ID, MANAGER_ID, JOB_ID;
 ## GROUPING SETS
 - to selectively choose particular group of data, ignoring anu unwanted groups
 - each set() specifies GROUP BY clause groups
-- as if running several GROUP BY at once and combine
+- as if running several GROUP BY at once and combine the results with UNION ALL
 - NULL for a Grand Total
 ```sql
 SELECT DEPARTMENT_ID, MANAGER_ID, JOB_ID, SUM(SALARY)
