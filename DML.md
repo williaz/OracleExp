@@ -136,7 +136,13 @@ ORDER BY DEPARTMENT_ID, MANAGER_ID, JOB_ID;
 - each set() specifies GROUP BY clause groups
 - as if running several GROUP BY at once and combine
 - NULL for a Grand Total
-
+```sql
+SELECT DEPARTMENT_ID, MANAGER_ID, JOB_ID, SUM(SALARY)
+FROM HR.EMPLOYEES
+WHERE MANAGER_ID IS NOT NULL
+GROUP BY GROUPING SETS((DEPARTMENT_ID, JOB_ID), MANAGER_ID, NULL)
+ORDER BY DEPARTMENT_ID, MANAGER_ID, JOB_ID;
+```
 ## HAVING
 - must together with GROUP BY, either order
 - only compare exp in GROUP BY or Agg func
