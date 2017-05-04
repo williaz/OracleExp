@@ -416,8 +416,13 @@ SELECT COUNT(*) FROM emp3; --49
 - insert will bypass DEFAULT value for explicit NULL, DEFAULT ON NULL fix it
 - DEFAULT ON NULL does not apply for UPDATE
 
-
-
+## 15. Grouping 
+### ROLLUP
+- n + 1 groupings
+### CUBE
+- 2^n groupings
+### GROUPING
+### GROUPING SETS
 
 
 
