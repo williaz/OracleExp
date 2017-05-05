@@ -431,10 +431,24 @@ FLASHBACK TABLE tab TO RESTORE POINT pt_exp;
 - SCN: system change number(recommended)
 ### ENABLE ROW MOVEMENT
 - def- not row movement
+- to perform FLASHBACK, must ENABLE ROW MOVEMENT
 - cannot use FLASHBACK TABLE to restore older data to an existing table if its structure alted
 ```sql
 CREATE/ALTER TABLE .... ENABLE ROW MOVEMENT;
 ```
+### AS OF
+```sql
+SELECT * FROM tab
+AS OF TIMESTAMP/SCN exp; - exp cannot be a subquery
+```
+#### Undo Retention Period
+```sql
+-- in sec
+SELECT NAME, VALUE
+FROM V$SYSTEM_PARAMETER
+WHERE NAME LIKE('undo%'); 
+```
+
 ### Marking time
 - SCN: increment for every committed transaction
 ```sql
