@@ -491,6 +491,7 @@ ORDER BY ORD_ID;
   - VERSIONS_ENDTIME; VERSIONS_ENDSCN
   - VERSIONS_XID
   - VERSIONS_OPERATION
+  
 ### FLASHBACK_TRANSACTION_QUERY (Flashback Transaction Query)
 - XID
 - RAWTOHEX(VERSIONS_XID)
@@ -529,7 +530,56 @@ SELECT * FROM V$RESTORE_POINT;
 ```sql
 PURGE TABLE orders;
 ```
+## Hierarchical Query
+- forks(father), node(leaf)
+- START WITH, CONNECT BY
+- PRIOR must be placed column reference, to decide traverse up or down the tree
+- LEVEL (pseudo-col) available to START WITH & CONNECT BY
+- ORDER SIBLINGS BY: sorts rows within each given level
+- SYS_CONNECT_BY_PATH: show full path
+- CONNECT_BY_ROOT: access root node row's columns
+```sql
+-- down, manager is the prior data
+SELECT LEVEL, LAST_NAME, LPAD(' ', LEVEL*2, '-') || JOB_ID title
+FROM HR.EMPLOYEES
+START WITH EMPLOYEE_ID = 100
+CONNECT BY MANAGER_ID = PRIOR EMPLOYEE_ID;
 
+-- find his boss
+SELECT LEVEL, LAST_NAME, LPAD(' ', LEVEL*2, '-') || JOB_ID title
+FROM HR.EMPLOYEES
+START WITH EMPLOYEE_ID = 206
+CONNECT BY PRIOR MANAGER_ID =  EMPLOYEE_ID;
+
+-- also show boss id using PRIOR in select list
+SELECT LEVEL, EMPLOYEE_ID, LAST_NAME, LPAD(' ', LEVEL*2, '-') || JOB_ID title, PRIOR EMPLOYEE_ID BOSS_ID
+FROM HR.EMPLOYEES
+START WITH EMPLOYEE_ID = 100
+CONNECT BY MANAGER_ID = PRIOR EMPLOYEE_ID
+ORDER SIBLINGS BY JOB_ID;
+
+SELECT LEVEL, EMPLOYEE_ID, LAST_NAME, SYS_CONNECT_BY_PATH(JOB_ID, '/') title, PRIOR EMPLOYEE_ID BOSS_ID
+FROM HR.EMPLOYEES
+START WITH EMPLOYEE_ID = 100
+CONNECT BY MANAGER_ID = PRIOR EMPLOYEE_ID
+ORDER SIBLINGS BY JOB_ID;
+
+SELECT LEVEL, EMPLOYEE_ID, LAST_NAME, LPAD(' ', LEVEL*2, '-') || JOB_ID title, CONNECT_BY_ROOT EMPLOYEE_ID  BIG_BOSS_ID
+FROM HR.EMPLOYEES
+START WITH EMPLOYEE_ID = 101
+CONNECT BY MANAGER_ID = PRIOR EMPLOYEE_ID
+ORDER SIBLINGS BY JOB_ID;
+```
+- selectviely restrict entire branches
+- WHERE should be place before the START WITH
+```sql
+SELECT EMPLOYEE_ID, LAST_NAME, LPAD(' ', LEVEL*2, '-') || JOB_ID title
+FROM HR.EMPLOYEES
+WHERE EMPLOYEE_ID < 200 
+START WITH EMPLOYEE_ID = 100
+CONNECT BY MANAGER_ID = PRIOR EMPLOYEE_ID
+           AND EMPLOYEE_ID != 102;
+```
 ## External table
 - its metadata is stored inside the database, and the data it contains is outside of the database
 - only SELECT
