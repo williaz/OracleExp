@@ -409,6 +409,7 @@ RENAME CONSTRAINT SYS_C002540550 TO ORD_ID_PK;
 ```sql
 FLASHBACK TABLE tab_name TO..
 FLASHBACK TABLE tab1, tab2, tab3 TO.. -- as a whole, fail together
+
 CREATE TABLE orders (
 ORD_ID NUMBER PRIMARY KEY,
 SALES_ID NUMBER
@@ -436,11 +437,63 @@ FLASHBACK TABLE tab TO RESTORE POINT pt_exp;
 ```sql
 CREATE/ALTER TABLE .... ENABLE ROW MOVEMENT;
 ```
-### AS OF
+### AS OF (Flashback Query)
 ```sql
 SELECT * FROM tab
 AS OF TIMESTAMP/SCN exp; - exp cannot be a subquery
+
+CREATE TABLE orders (
+ORD_ID NUMBER PRIMARY KEY,
+SALES_ID NUMBER
+);
+
+CREATE SEQUENCE ord_id_seq;
+INSERT INTO orders VALUES(ord_id_seq.NEXTVAL, ord_id_seq.CURRVAL);
+SELECT * FROM orders;
+commit;
+
+SELECT ORA_ROWSCN, ORD_ID,Sales_ID FROM orders; 
+
+SELECT * FROM orders
+AS OF SCN 1262810129 
+MINUS 
+SELECT * FROM orders 
+AS OF SCN 1262801047;
+
+CREATE VIEW yesterday_orders 
+AS
+SELECT * FROM orders
+AS OF TIMESTAMP (SYSTIMESTAMP -1);
 ```
+### VERSIONS BETWEEN AND (Flashback Version Query)
+- display rows from mulitple committed versions of the database over a range of time
+- cannot use VERSIONS to query view, but can CREATE VIEW with it
+- VERSIONS BETWEEN must precedes AS OF, as it's defined from the perspective of AS OF
+```sql
+VERSIONS BETWEEN TIMESTAMP/SCN
+
+UPDATE orders SET SALES_ID = ord_id_seq.NEXTVAL
+WHERE ORD_ID < 5;
+
+COMMIT;
+
+SELECT ORD_ID, SALES_ID, VERSIONS_STARTSCN, VERSIONS_ ENDSCN, VERSIONS_OPERATION FROM orders
+VERSIONS BETWEEN TIMESTAMP MINVALUE AND MAXVALUE
+ORDER BY ORD_ID, VERSIONS_STARTSCN;
+
+SELECT ORD_ID, SALES_ID FROM orders
+VERSIONS BETWEEN TIMESTAMP MINVALUE AND MAXVALUE
+AS OF TIMESTAMP SYSTIMESTAMP - INTERVAL '0 00:05:00' DAY TO SECOND
+ORDER BY ORD_ID;
+```
+- Pseudo-column
+  - VERSIONS_STARTTINE; VERSION_STARTSCN
+  - VERSIONS_ENDTIME; VERSIONS_ENDSCN
+  - VERSIONS_XID
+  - VERSIONS_OPERATION
+### FLASHBACK_TRANSACTION_QUERY (Flashback Transaction Query)
+- XID
+- RAWTOHEX(VERSIONS_XID)
 #### Undo Retention Period
 ```sql
 -- in sec
@@ -451,6 +504,7 @@ WHERE NAME LIKE('undo%');
 
 ### Marking time
 - SCN: increment for every committed transaction
+- **ORA_ROWSCN**
 ```sql
 -- DBA privilege
 SELECT DBMS_FLASHBACK.GET_SYSTEM_CHANGE_NUMBER FROM dual; 
