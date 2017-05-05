@@ -64,9 +64,15 @@ WHERE COMMISSION_PCT IS NOT NULL;
 ```
 - GROUPING
 
-
-
-
+### Regular Expression Function
+- REGEXP_SUBSTR(source_str, pattern, pos_start, n, match_param): return the substring
+- REGEXP_INSTR(source_str, pattern, start, n, opt, match_param): def-opt=0, return the location of the pattern, if opt=1, return first position after the pattern
+- REGEXP_REPLACE(source_str, pattern, replace_str, start, n, match): 
+- Match Param value: 
+  1. 'c': Case-sensitive
+  2. 'i': Case-insensitive
+  3. 'n': enable . to match newline
+  4. 'm': treat the source as multi-lines. 
 
 
 
