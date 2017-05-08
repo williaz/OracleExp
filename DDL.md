@@ -540,8 +540,50 @@ CREATE (OR REPLACE) DIRECTORY dir_name AS dir_ref; -- looks to the OS host the O
 GRANT READ/WRITE ON DIRECTORY dir_name TO usr;
 ```
 
+## Privildge
+- System privilege-driver license; Object privilege-drive someone's car
+- USER:
+  - CREATE/ALTER name IDENTIFIED BY password;
+  - DROP USER name (CASCADE); -- if it owns objects
+  - CONNECT name/password; (SQL\*Plus)
+  - GRANT UNLIMITED TABLESPACE TO name;
 
+## GRANT, REVOKE
+```sql
+GRANT priv TO user opt;
+REVOKE priv FROM user;
+```
+### ANY
+- CREATE ANY TABLE: to create a table in any user account anyhwere in the DB
+```sql
+GRANT CREATE ANY TABLE TO will;
+CONNECT will/123
+CREATE TABLE HR.SHOWS (SHOW_ID NUMBER);
+```
+### WITH ADMIN OPTION
+- also can GRANT the system privilege to others
+- REVOKE doesn't have
+```sql
+GRANT priv TO user WITH ADMIN OPTION;
+```
+### ALL PRIVILEGES
+- ALL for object priv
+```sql
+GRANT ALL PRIVILEGES TO user;
+REVOKE ALL PRIVILEGES FROM user;
 
+GRANT ALL ON employees TO will;
+```
+### PUBLIC
+- stand for every user
+- to create globally owned objects
+```sql
+GRANT CREATE ANY TABLE TO PUBLIC; -- to every user
+REVOKE CREATE ANY TABLE FROM PUBLIC; -- only the PUBLIC account
 
-
+CREATE PUBLIC SYNONYM employees FOR hr.employees;
+```
+### WITH GRANT OPTION
+- able to grant the object provolege to others
+**Revoking system privileges not "cascades", while revoking object privileges do "cascades"**
 
