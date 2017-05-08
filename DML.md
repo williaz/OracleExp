@@ -446,8 +446,16 @@ CONNECT BY MANAGER_ID = PRIOR EMPLOYEE_ID
            AND EMPLOYEE_ID != 102;
 ```
 
-
-
+## Data Dictionary
+- owned by SYS
+- USER\_, ALL_, DBA_
+- USER_TABLES view: info about tables owned by current user account, columns:
+  1 TABLE_NAME
+  2 STATUS: valid or not
+  3 ROW_MOVEMENT
+  4 AVG_ROW_LEN
+- ALL_TABLES: current user has privileges, + OWNER col
+- DBA_TABLES: entire DB, + OWNER col
 
 
 
