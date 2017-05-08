@@ -464,9 +464,18 @@ SELECT FROM_TZ(TIMESTAMP'2017-05-25 12:00:00', 'US/Central') FROM dual;
 SELECT TZ_OFFSET(SESSIONTIMEZONE) AS session_tz,
        TZ_OFFSET(DBTIMEZONE) AS db_tz
 FROM dual;
-
- ```
-  
+```
+## 17. Subquery
+- multi-column subquery(pairwiase comparison)
+- Scalar query, always in its own (), not in:
+  1 GROUP By
+  2 DEFAULT
+  3 RETURNING
+  4 function-based INDEX
+  5 CHECK
+- Correlated subquery, UPDATE, DELETE
+- EXISTS, NOT EXISTS
+- WITH: name subquery, visible to the main query and all subsequent subq, even itself
   
   
 
