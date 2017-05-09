@@ -587,3 +587,24 @@ CREATE PUBLIC SYNONYM employees FOR hr.employees;
 - able to grant the object provolege to others
 **Revoking system privileges not "cascades", while revoking object privileges do "cascades"**
 
+### Dictionary
+```sql
+SELECT * FROM USER_SYS_PRIVS;
+
+SELECT * FROM USER_TAB_PRIVS;
+
+SELECT * FROM SESSION_PRIVS;
+
+```
+### ROLE
+- change cascade
+- a role can be granted to another role
+```sql
+CREATE ROLE dev;
+```
+
+
+
+
+
+
