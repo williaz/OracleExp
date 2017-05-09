@@ -488,7 +488,7 @@ FROM dual;
 - CONNECT BY: to filter branches
 
 ## 19. REGEXP
-- * >=0 + >=1 ? 0/1
+- \* >=0 + >=1 ? 0/1
 - | ^ $ . () {m} {m, n} {m,} [==] 
 - a-z A-Z [:alnum:]
 - REGEXP_COUNT()
