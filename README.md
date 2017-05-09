@@ -477,7 +477,35 @@ FROM dual;
 - EXISTS, NOT EXISTS
 - WITH: name subquery, visible to the main query and all subsequent subq, even itself
   
-  
+## 18. Hierarchical 
+- LEVEL
+- START WITH
+- CONNECT BY
+- PRIOR: with parent row to walk down, with child row to walk up
+- CONNECT_BY_ROOT
+- SYS_CONNECT_BY_PATH
+- WHERE: to filter nodes
+- CONNECT BY: to filter branches
+
+## 19. REGEXP
+- * >=0 + >=1 ? 0/1
+- | ^ $ . () {m} {m, n} {m,} [==] 
+- a-z A-Z [:alnum:]
+- REGEXP_COUNT()
+- REGEXP_INSTR()
+- REGEXP_REPLACE()
+- REGEXP_SUBSTR()
+- REGEXP_LIKE()
+```sql
+SELECT PHONE_NUMBER, 
+REGEXP_REPLACE(PHONE_NUMBER, '([[:digit:]]{3})\.([[:digit:]]{3})\.([[:digit:]]{4})', '(\1)\2-\3') PHONE_NUMBER_FMTD
+FROM HR.EMPLOYEES;
+```
+
+
+
+
+
 
 
 
