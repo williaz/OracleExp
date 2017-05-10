@@ -139,7 +139,7 @@
   - EXTRACT
   
   
-###Retrieving Data Using Subqueries
+### Retrieving Data Using Subqueries
 
 - Use multiple-column subqueries
 - Use scalar subqueries
