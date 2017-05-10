@@ -1,14 +1,14 @@
 ### Restricting and Sorting Data
 
 - Limit the rows that are retrieved by a query
-  1 DISTINCT, UNIQUE
-  2 WHERE: IN(set), BETWEEN AND, LIKE % \_, IS NULL; AND, OR, NOT
+  - DISTINCT, UNIQUE
+  - WHERE: IN(set), BETWEEN AND, LIKE % \_, IS NULL; AND, OR, NOT
 - Sort the rows that are retrieved by a query
-  1 ORDER BY: last clause, 1Wb, NULLS FIRST/LAST, DESC
+  - ORDER BY: last clause, 1Wb, NULLS FIRST/LAST, DESC
 - Use substitution variables
 - Use the SQL row limiting clause(after ORDER BY)
-  1 FETCH FIRST
-  2 OFFSET
+  - FETCH FIRST
+  - OFFSET
 - Create queries using the PIVOT and UNPIVOT clause
 - Use pattern matching to recognize patterns across multiple rows in a table
 
