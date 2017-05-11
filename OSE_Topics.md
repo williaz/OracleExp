@@ -105,7 +105,48 @@ from HR.EMPLOYEES;
 - Use outer joins
 - Generate a Cartesian product of all rows from two or more tables
 - Use the cross_outer_apply_clause
+  - right side can reference left side columns
+  - CROSS APPLY ~ INNER JOIN
+  - OUTER APPLY ~ LEFT JOIN
+```sql
+WITH 
+cross_apply_tb AS
+(
+select EMPLOYEE_ID, DEPARTMENT_NAME from hr.employees em
+cross apply (select * from hr.departments dp where em.DEPARTMENT_ID = dp.DEPARTMENT_ID)
 
+),
+inner_join_tb AS
+(
+select EMPLOYEE_ID, DEPARTMENT_NAME from hr.employees em
+join hr.departments dp on em.DEPARTMENT_ID = dp.DEPARTMENT_ID
+
+)
+SELECT * FROM
+cross_apply_tb
+MINUS
+SELECT * FROM
+inner_join_tb;
+-----------------------------------------------------------------------------------------------
+WITH 
+outer_apply_tb AS
+(
+select EMPLOYEE_ID, DEPARTMENT_NAME from hr.employees em
+outer apply (select * from hr.departments dp where em.DEPARTMENT_ID = dp.DEPARTMENT_ID)
+
+),
+left_join_tb AS
+(
+select EMPLOYEE_ID, DEPARTMENT_NAME from hr.employees em
+left join hr.departments dp on em.DEPARTMENT_ID = dp.DEPARTMENT_ID
+
+)
+SELECT * FROM
+outer_apply_tb
+MINUS
+SELECT * FROM
+left_join_tb;
+```
 
 ### Using Subqueries to Solve Queries
 
@@ -113,9 +154,17 @@ from HR.EMPLOYEES;
 - List the types of subqueries
 - Use single-row and multiple-row subqueries
 - Create a lateral inline view in a query
+  - LATERAL enables inline view contains correlation referring to other tables that precde it in the FROM
+```sql
+select emp.EMPLOYEE_ID, dep.DEPARTMENT_NAME
+from hr.employees emp,
+     LATERAL (
+     select DEPARTMENT_NAME from hr.departments dp where dp.DEPARTMENT_ID = emp.DEPARTMENT_ID
+     ) dep
+;
+```
 
-
-### Using the Set Operators(UNION, MINUS, INTERECT, UNION ALL)
+### Using the Set Operators(UNION, MINUS, INTERSECT, UNION ALL)
 
 - Explain set operators
 - Use a set operator to combine multiple queries into a single query
@@ -167,7 +216,7 @@ from HR.EMPLOYEES;
 
 ### Managing Schema Objects
 
-= Manage constraints
+- Manage constraints
 - Create and maintain indexes including invisible indexes and multiple indexes on the same columns
 - Create indexes using the CREATE TABLE statement
 - Create function-based indexes
