@@ -1,2 +1,5 @@
-- TABLE has no OR REPLACE, SYNONYM has no ALTER
-- NOT NULL can only be created 'in line', ALTER TABLE .. MODIFY ..
+- [ ] TABLE has no OR REPLACE, SYNONYM has no ALTER
+- [ ] NOT NULL can only be created 'in line', ALTER TABLE .. MODIFY ..
+- [ ] INNER JOIN ON AND = INNER JOIN ON WHERE, but OUTER JOIN different [info](http://stackoverflow.com/questions/13132447/difference-between-on-and-where-clauses-in-sql-table-joins)
+- [x] USING for Equijoin only, either INNER or OUTER, must share the same column name
+- [ ] GROUP BY and HAVING must after WHERE and hierarchical query, but before ORDER BY
