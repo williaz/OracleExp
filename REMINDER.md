@@ -1,0 +1,2 @@
+- TABLE has no OR REPLACE, SYNONYM has no ALTER
+- NOT NULL can only be created 'in line', ALTER TABLE .. MODIFY ..
