@@ -7,16 +7,86 @@
   - ORDER BY: last clause, 1Wb, NULLS FIRST/LAST, DESC
 - Use substitution variables
 - Use the SQL row limiting clause(after ORDER BY)
-  - FETCH FIRST
+  - FETCH FIRST/NEXT
   - OFFSET
-- Create queries using the PIVOT and UNPIVOT clause
-- Use pattern matching to recognize patterns across multiple rows in a table
+```sql
+SELECT * FROM HR.EMPLOYEES
+FETCH FIRST 5 ROWS ONLY;
+
+SELECT * FROM HR.EMPLOYEES
+FETCH NEXT 5 PERCENT ROWS ONLY;
+
+
+SELECT * FROM HR.EMPLOYEES
+ORDER BY EMPLOYEE_ID
+OFFSET 5 ROWS;
+
+SELECT * FROM HR.EMPLOYEES
+OFFSET 5 ROW FETCH NEXT 5 ROWS ONLY;
+```
+- [ ] Create queries using the PIVOT and UNPIVOT clause [link](http://www.oracle.com/technetwork/articles/sql/11g-pivot-097235.html)
+  - PIVOT performs an implicit GROUP BY
+```sql
+-- num of team members
+SELECT * FROM (
+SELECT EMPLOYEE_ID, MANAGER_ID FROM HR.EMPLOYEES
+)
+PIVOT (
+COUNT(EMPLOYEE_ID) AS num   -- data
+FOR (MANAGER_ID) IN (100, 101, 102, 103)  -- cols
+);
+
+select value
+from
+(
+    (
+        select
+            'a' v1,
+            'e' v2,
+            'i' v3,
+            'o' v4,
+            'u' v5
+        from dual
+    )
+    unpivot
+    (
+        value
+        for value_type in
+            (v1,v2,v3,v4,v5)
+    )
+)
+```
+- [ ] Use pattern matching to recognize patterns across multiple rows in a table
 
 
 ### Using Single-Row Functions to Customize Output
 
 - Describe various types of functions that are available in SQL
 - Use character, number, and date and analytical (PERCENTILE_CONT, STDDEV, LAG, LEAD) functions in SELECT statements
+  - analytical function return one result per row, even same
+```sql
+select JOB_ID, 
+percentile_cont(0.5) within group (order by salary) AS median_salary
+from HR.EMPLOYEES
+group by JOB_ID;
+
+select EMPLOYEE_ID, JOB_ID, SALARY,
+percentile_cont(0.5) within group (order by salary)
+over (partition by JOB_ID) median_salary
+from HR.EMPLOYEES;
+
+select EMPLOYEE_ID, JOB_ID, SALARY,
+stddev(SALARY) over (partition by JOB_ID) dev_salary
+from HR.EMPLOYEES;
+
+select EMPLOYEE_ID, SALARY,
+lag(SALARY, 3) over (order by EMPLOYEE_ID) before_3_sal
+from HR.EMPLOYEES;
+
+select EMPLOYEE_ID, SALARY,
+lead(SALARY, 3, 0) over (order by EMPLOYEE_ID) next_3_sal
+from HR.EMPLOYEES;
+```
 - Use conversion functions
 
 
