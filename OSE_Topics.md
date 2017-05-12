@@ -238,6 +238,26 @@ select * from counter;
 ### Creating Other Schema Objects
 
 - Create simple and complex views with visible/invisible columns
+```sql
+select * from work_vw;
+select age from work_vw; --error
+
+
+create view work_vw1
+as
+select work_id, name, age, salary from worker;
+
+select * from work_vw1; -- age visible always
+
+
+create view work_vw2
+(work_id, name, age invisible, salary)
+as
+select work_id, name, age, salary from worker;
+
+select * from work_vw2; 
+select age from work_vw2; 
+```
 - Retrieve data from views
 - Create, maintain and use sequences
 - Create private and public synonyms
@@ -265,7 +285,7 @@ select * from counter;
 - Create function-based indexes
 - Drop columns and set column UNUSED
 - Perform flashback operations
-- Create and use external tables
+- [ ] Create and use external tables
 
 
 ### Manipulating Large Data Sets
