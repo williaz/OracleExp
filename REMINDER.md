@@ -14,3 +14,8 @@ select EMPLOYEE_ID from hr.employees
 natural join hr.departments
 );
 ```
+- [x] UNION/INTERSECT/MINUS query: 
+  - Column names returned are determined by the first SELECT
+  - ORDER BY can only be placed at the very end of the compound query
+
+- [x] INDEX and CONSTRAINT has its own namespace
