@@ -2,7 +2,12 @@
 - [ ] NOT NULL can only be created 'in line', ALTER TABLE .. MODIFY ..
 - [ ] INNER JOIN ON AND = INNER JOIN ON WHERE, but OUTER JOIN different [info](http://stackoverflow.com/questions/13132447/difference-between-on-and-where-clauses-in-sql-table-joins)
 - [x] USING for Equijoin only, either INNER or OUTER, must share the same column name
-- [x] JOIN USING: No table name prefix is allowed before the column name in the statement(not in SELECT list)
+  - JOIN USING: No table name prefix is allowed before the column name in the statement(not in SELECT list)
+  - USING can be used with multi-columns
+```sql
+select count(*) from hr.employees natural join hr.departments;
+select count(*) from hr.employees join hr.departments using(DEPARTMENT_ID, MANAGER_ID);
+```
 - [ ] GROUP BY and HAVING must after WHERE and hierarchical query, but before ORDER BY
 - [x] HAVING can only reference columns defined in GROUP BY or aggregate functions
 - [x] NATURAL JOIN may suprise you, as you don't control the condition
@@ -43,10 +48,24 @@ sales_id number
 insert into orders values(1, 5, 2);
 update orders set order_id = 2, (total, sales_id) = (select 4, 3 from dual) where order_id = 1;
 ```
+- [x] INSERT DEFAULT value
+```sql
+drop table worker;
+create table worker(
+work_id number,
+name varchar2(20) default 'xiaoming',
+salary number default on null 5000 
+);
+
+insert into worker values (1, default, default);
+insert into worker values (2, '', '');
+insert into worker values (3, null, null);
+select * from worker;
+```
 - [x] Date + Interval
 ```sql
 select sysdate + to_yminterval('2-1') from dual;
 ```
-
+- [x] WITH is a clause of SELECT only.
 
 
