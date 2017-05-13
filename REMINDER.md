@@ -4,6 +4,7 @@
 - [x] USING for Equijoin only, either INNER or OUTER, must share the same column name
 - [x] JOIN USING: No table name prefix is allowed before the column name in the statement(not in SELECT list)
 - [ ] GROUP BY and HAVING must after WHERE and hierarchical query, but before ORDER BY
+- [x] HAVING can only reference columns defined in GROUP BY or aggregate functions
 - [x] NATURAL JOIN may suprise you, as you don't control the condition
 ```sql
 select * from hr.employees
@@ -30,3 +31,22 @@ natural join hr.departments
 - [x] VERSIONS BETWEEN must precde the AS OF clause
 - [x] SEQENCE: if CYCLE presnets, MINVALUE def = 1
 - [ ] GROUPING assigns 1 to each superaggregate row - meaning a row that shows a subtotal or total of the expression specified in GROUPING
+- [ ] INDEX are never used for !=, NOT IN, IS NULL
+- [x] UPDATE multi-columns in SET
+```sql
+create table orders(
+order_id number,
+total number,
+sales_id number
+);
+
+insert into orders values(1, 5, 2);
+update orders set order_id = 2, (total, sales_id) = (select 4, 3 from dual) where order_id = 1;
+```
+- [x] Date + Interval
+```sql
+select sysdate + to_yminterval('2-1') from dual;
+```
+
+
+
