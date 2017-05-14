@@ -8,7 +8,7 @@
 select count(*) from hr.employees natural join hr.departments;
 select count(*) from hr.employees join hr.departments using(DEPARTMENT_ID, MANAGER_ID);
 ```
-- [ ] GROUP BY and HAVING must after WHERE and hierarchical query, but before ORDER BY
+- [x] GROUP BY and HAVING must after WHERE and hierarchical query, but before ORDER BY
 - [x] HAVING can only reference columns defined in GROUP BY or aggregate functions
 - [x] NATURAL JOIN may suprise you, as you don't control the condition
 ```sql
@@ -31,7 +31,9 @@ natural join hr.departments
   - Database time zone (dbtimezone): ALTER DATABASE - The time zone may be set to an absolute offset from UTC or to a named region. 
   - Absolute offset from UTC (for example, '+10:00')
   - Time zone region name (for example, 'Asia/Hong_Kong')
-- [x] MERGE: 'delete clause' only affect rows that are a result of the completed 'update clause'
+- [x] MERGE: 
+  - 'delete clause' only affect rows that are a result of the completed 'update clause'
+  - cannot update column in the ON condition
 - [x] GRANT: grant object privilege on one object per query.
 - [x] VERSIONS BETWEEN must precde the AS OF clause
 - [x] SEQENCE: if CYCLE presnets, MINVALUE def = 1
@@ -75,7 +77,7 @@ select sysdate + to_yminterval('2-1') from dual;
   - VARCHAR2(n): n [1, 4000]
   - LONG one column per table
 - [x] USER_CATALOG = CAT; USER_OBJECTS = OBJ
-
+- [x] DROP TABLE list_customers PURGE;
 
 
 
