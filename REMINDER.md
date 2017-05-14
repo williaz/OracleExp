@@ -36,6 +36,7 @@ natural join hr.departments
 - [x] VERSIONS BETWEEN must precde the AS OF clause
 - [x] SEQENCE: if CYCLE presnets, MINVALUE def = 1
 - [ ] GROUPING assigns 1 to each superaggregate row - meaning a row that shows a subtotal or total of the expression specified in GROUPING
+  - only valid in a SELECT statement that uses a GROUP BY 
 - [ ] INDEX are never used for !=, NOT IN, IS NULL
 - [x] UPDATE multi-columns in SET
 ```sql
@@ -62,10 +63,20 @@ insert into worker values (2, '', '');
 insert into worker values (3, null, null);
 select * from worker;
 ```
+- [x] DELETE (FROM)
+  - DELETE FROM inline view;
 - [x] Date + Interval
 ```sql
 select sysdate + to_yminterval('2-1') from dual;
 ```
 - [x] WITH is a clause of SELECT only.
+- [x] SAVEPOINT: once a commit event occurs, all existing savepoints are erased from memory
+- [x] Data Type:
+  - VARCHAR2(n): n [1, 4000]
+  - LONG one column per table
+- [x] USER_CATALOG = CAT; USER_OBJECTS = OBJ
+
+
+
 
 
