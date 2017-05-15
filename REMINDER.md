@@ -76,9 +76,16 @@ select sysdate + to_yminterval('2-1') from dual;
 - [x] Data Type:
   - VARCHAR2(n): n [1, 4000]
   - LONG one column per table
+  - NUMBER(m,n): n .5 round up
+- [x] naming: first char must be a letter, [1, 30], alphanumeric $ _ #
+- [x] namespace: non-schema-(User, ROLE, Public SYNONYM), schema-(TABLE, VIEW, SEQUENCE, private SYNONYM, (INDEX), (CONSTRAINT)) 
 - [x] USER_CATALOG = CAT; USER_OBJECTS = OBJ
 - [x] DROP TABLE list_customers PURGE;
-
-
+- [x] a table at least has one column
+- [x] each DDL is preceded and followed by an implicit commit
+- [x] you cannot use * together with any other column in select list, but you can use table prefix to achieve
+```sql
+select rownum, em.* from hr.employees em;
+```
 
 
