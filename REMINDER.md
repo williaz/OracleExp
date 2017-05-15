@@ -77,6 +77,7 @@ select sysdate + to_yminterval('2-1') from dual;
   - VARCHAR2(n): n [1, 4000]
   - LONG one column per table
   - NUMBER(m,n): n .5 round up
+  - INTERVAL DAY TO SECOND also can store fractional seconds
 - [x] naming: first char must be a letter, [1, 30], alphanumeric $ _ #
 - [x] namespace: non-schema-(User, ROLE, Public SYNONYM), schema-(TABLE, VIEW, SEQUENCE, private SYNONYM, (INDEX), (CONSTRAINT)) 
 - [x] USER_CATALOG = CAT; USER_OBJECTS = OBJ
@@ -87,5 +88,6 @@ select sysdate + to_yminterval('2-1') from dual;
 ```sql
 select rownum, em.* from hr.employees em;
 ```
-
+- [x] NOT is evaluated first, then AND, and then OR
+- [x] MONTHS_BETWEEN(d1, d2): = d1 - d2
 
