@@ -9,6 +9,7 @@ select count(*) from hr.employees natural join hr.departments;
 select count(*) from hr.employees join hr.departments using(DEPARTMENT_ID, MANAGER_ID);
 ```
 - [x] GROUP BY and HAVING must after WHERE and hierarchical query, but before ORDER BY
+  - Using WHERE to exclude the rows before creating groups
 - [x] HAVING can only reference columns defined in GROUP BY or aggregate functions
 - [x] NATURAL JOIN may suprise you, as you don't control the condition
 ```sql
@@ -90,4 +91,17 @@ select rownum, em.* from hr.employees em;
 ```
 - [x] NOT is evaluated first, then AND, and then OR
 - [x] MONTHS_BETWEEN(d1, d2): = d1 - d2
+- [x] NULL: IS NULL, but
+```sql
+update emp set SALARY = null where employee_id = 101;
+```
+- [x] CREATE VIEW
+  - WITH CHECK OPTION: Specify WITH CHECK OPTION to indicate that Oracle Database prohibits any changes to the table or view that would produce rows that are not included in the subquery. 
+- [x] UNUSED:
+  - once UNUSED, never available again, cannot be recovered
+  - any constraint or indices on the column will alos be dropped
+  - ROLLBACK not effect
+  - once UNUSED, you can add new column with the same name
+  - still count as part of the 1000 cols limit
+
 
