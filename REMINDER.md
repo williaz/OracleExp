@@ -26,6 +26,7 @@ on emp.department_id = dep.department_id;
 ```
 - [x] GROUP BY and HAVING must after WHERE and hierarchical query, but before ORDER BY
   - Using WHERE to exclude the rows before creating groups
+  - Scalar subqueries may not be used in a GROUP BY clause
 - [x] HAVING can only reference columns defined in GROUP BY or aggregate functions
 - [x] NATURAL JOIN may suprise you, as you don't control the condition
 ```sql
@@ -113,11 +114,30 @@ update emp set SALARY = null where employee_id = 101;
 ```
 - [x] CREATE VIEW
   - WITH CHECK OPTION: Specify WITH CHECK OPTION to indicate that Oracle Database prohibits any changes to the table or view that would produce rows that are not included in the subquery. 
+- [x] ALTER VIEW VW_EMP COMPILE;
+- [x] if drop a table upon which an index is based, the index is automatically dropped.
 - [x] UNUSED:
   - once UNUSED, never available again, cannot be recovered
   - any constraint or indices on the column will alos be dropped
   - ROLLBACK not effect
   - once UNUSED, you can add new column with the same name
   - still count as part of the 1000 cols limit
+- [x] (NOT) EXISTS: syntax- WHERE EXISTS + subquery. (semijoin)
+- [x] WITH: the one place within the WITH that does not recognize the subquery name is within the named subquery itself.
+- [x] DROP: if you drop a column with a constraint, the constraint is also dropped. The same is true for any index objects on the column, they are also dropped.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
