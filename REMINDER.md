@@ -1,12 +1,28 @@
 - [ ] TABLE has no OR REPLACE, SYNONYM has no ALTER
 - [ ] NOT NULL can only be created 'in line', ALTER TABLE .. MODIFY ..
 - [ ] INNER JOIN ON AND = INNER JOIN ON WHERE, but OUTER JOIN different [info](http://stackoverflow.com/questions/13132447/difference-between-on-and-where-clauses-in-sql-table-joins)
+- [x] CROSS JOIN: happens when without a join condition, 
 - [x] USING for Equijoin only, either INNER or OUTER, must share the same column name
   - JOIN USING: No table name prefix is allowed before the column name in the statement(not in SELECT list)
   - USING can be used with multi-columns
 ```sql
 select count(*) from hr.employees natural join hr.departments;
 select count(*) from hr.employees join hr.departments using(DEPARTMENT_ID, MANAGER_ID);
+```
+- [x] JOIN: using table name
+```sql
+create table emp
+as 
+select * from hr.employees;
+
+create table dep
+as 
+select * from hr.departments;
+
+select last_name, department_name 
+from emp 
+join dep
+on emp.department_id = dep.department_id;
 ```
 - [x] GROUP BY and HAVING must after WHERE and hierarchical query, but before ORDER BY
   - Using WHERE to exclude the rows before creating groups
