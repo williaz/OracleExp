@@ -10,6 +10,7 @@ select count(*) from hr.employees natural join hr.departments;
 select count(*) from hr.employees join hr.departments using(DEPARTMENT_ID, MANAGER_ID);
 ```
 - [x] JOIN: using table name
+  - JOIN ON before WHERE
 ```sql
 create table emp
 as 
@@ -27,7 +28,9 @@ on emp.department_id = dep.department_id;
 - [x] GROUP BY and HAVING must after WHERE and hierarchical query, but before ORDER BY
   - Using WHERE to exclude the rows before creating groups
   - Scalar subqueries may not be used in a GROUP BY clause
+  - cannot use column alias(HAVING also)
 - [x] HAVING can only reference columns defined in GROUP BY or aggregate functions
+- [x] SQL execution order: FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY
 - [x] NATURAL JOIN may suprise you, as you don't control the condition
 ```sql
 select * from hr.employees
@@ -125,8 +128,8 @@ update emp set SALARY = null where employee_id = 101;
 - [x] (NOT) EXISTS: syntax- WHERE EXISTS + subquery. (semijoin)
 - [x] WITH: the one place within the WITH that does not recognize the subquery name is within the named subquery itself.
 - [x] DROP: if you drop a column with a constraint, the constraint is also dropped. The same is true for any index objects on the column, they are also dropped.
-
-
+- [x] CHECK: cannot use with SYSDATE, as SYSDATE is non-deterministic.
+- [x] CTAS: any CONSTRAINT or INDEX or any ohter supporting objects that might exist for the source table are not replicated, with one exception: any explicitly created NOT NULL constraints on the queried table are copied into the new table with a system-generated name as part of the table's definition. 
 
 
 
