@@ -130,6 +130,12 @@ update emp set SALARY = null where employee_id = 101;
 - [x] DROP: 
   - if you drop a column with a constraint, the constraint is also dropped. The same is true for any index objects on the column, they are also dropped.
   - DROP TABLE tab (CASCADE CONSTRAINTS): also drop any constraints and index objects on it
+- [x] FLASHBACK TABLE: 
+  1. restores the dropped table with either its original name or a new assigned name
+  2. recovers any indexes, other than bitmap join indexes
+  3. all cinstraints are recovered, except for FK that reference other table
+  4. Granted privileges are also recovered
+  - FLASHBACK TABLE tab1(, tab2, ...) TO BEFORE DROP/TIMESTAMP/SCN/RESTORE POINT (RENAME TO new, ...) 
 - [x] CHECK: cannot use with SYSDATE, as SYSDATE is non-deterministic.
 - [x] CTAS: any CONSTRAINT or INDEX or any ohter supporting objects that might exist for the source table are not replicated, with one exception: any explicitly created NOT NULL constraints on the queried table are copied into the new table with a system-generated name as part of the table's definition. 
 - [x] COLUMN:
