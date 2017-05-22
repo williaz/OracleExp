@@ -127,12 +127,49 @@ update emp set SALARY = null where employee_id = 101;
   - still count as part of the 1000 cols limit
 - [x] (NOT) EXISTS: syntax- WHERE EXISTS + subquery. (semijoin)
 - [x] WITH: the one place within the WITH that does not recognize the subquery name is within the named subquery itself.
-- [x] DROP: if you drop a column with a constraint, the constraint is also dropped. The same is true for any index objects on the column, they are also dropped.
+- [x] DROP: 
+  - if you drop a column with a constraint, the constraint is also dropped. The same is true for any index objects on the column, they are also dropped.
+  - DROP TABLE tab (CASCADE CONSTRAINTS): also drop any constraints and index objects on it
 - [x] CHECK: cannot use with SYSDATE, as SYSDATE is non-deterministic.
 - [x] CTAS: any CONSTRAINT or INDEX or any ohter supporting objects that might exist for the source table are not replicated, with one exception: any explicitly created NOT NULL constraints on the queried table are copied into the new table with a system-generated name as part of the table's definition. 
+- [x] COLUMN:
+  - ALTER TABLE tab ADD/MODIFY: only more than one column need to be enclosed in parentheses
+    - cannot change exist column's datatype, not support Automatic datatype conversion
+  - ALTER TABLE tab RENAME COLUMN old TO new
+  - ALTER TABLE tab DROP COLUMN col; ALTER TABLE tab DROP (col1, col2, ..); 
+    - at least one column
+    - if a column is referenced by a FK in another table, add "CASCADE CONSTRAINTS"
+  - ALTER TABLE tab SET UNUSED COLUMN col; ALTER TABLE tab SET UNUSED (col1, col2, ..); 
+```sql
+CREATE TABLE orders (
+ORD_ID NUMBER,
+SALES_ID NUMBER
+);
 
+SELECT * 
+FROM USER_TAB_COLUMNS
+WHERE TABLE_NAME = 'ORDERS';
 
-
+ALTER TABLE orders ADD ORD_PRICE NUMBER;
+ALTER TABLE orders MODIFY ORD_ID NUMBER NOT NULL;
+ALTER TABLE orders DROP COLUMN SALES_ID;
+ALTER TABLE orders RENAME COLUMN ORD_ID TO OD_ID;
+```
+- [x] CONSTRAINT:
+  - ALTER TABLE tab DISABLE/ENABLE VALIDATE/NOVALIDATE PRIMARY KEY (CASCADE)/UNIQUE(col1, col2, ..)/CONSTRAINT const_name
+  - VALIDATE/NOVALIDATE for validating existing rows
+  - ENABLE/DISABLE for incoming rows
+  - ENABLE = ENABLE VALIDATE; DISABLE = DISABLE NOVALIDATE
+  - you cannot DELETE a row in a table if dependent child rows exist
+    - 1. DISABLE FK; 
+    - 2. create FK 
+      - ON DELETE CASCADE: delete child rows
+      - ON DELETE SET NULL: set null for the child rows' column
+  - DEFERRABLE: def- NOT DEFERRABLE
+    - SET CONSTRAINT name/ALL DEFERRED;
+    - once a commit occurs, the constraint auto changes state to IMMEDIATE, and the constraints will be applied, if any violatedm all data is rolled back.
+  - ALTER TABLE tab RENAME CONSTRAINT old TO new;
+  - USING INDEX: only works for PK and UNIQUE
 
 
 
