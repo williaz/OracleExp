@@ -30,6 +30,10 @@ on emp.department_id = dep.department_id;
   - Scalar subqueries may not be used in a GROUP BY clause
   - cannot use column alias(HAVING also)
 - [x] HAVING can only reference columns defined in GROUP BY or aggregate functions
+- [x] GROUPING: 
+  - require GROUP BY, syntax err
+  - there cannot be any superaggregate roows without ROLLUP or CUBE -> GROUPING always return 0
+- [x] GROUPING SET: using UNION ALL
 - [x] SQL execution order: FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY
 - [x] NATURAL JOIN may suprise you, as you don't control the condition
 ```sql
@@ -176,13 +180,21 @@ ALTER TABLE orders RENAME COLUMN ORD_ID TO OD_ID;
     - once a commit occurs, the constraint auto changes state to IMMEDIATE, and the constraints will be applied, if any violatedm all data is rolled back.
   - ALTER TABLE tab RENAME CONSTRAINT old TO new;
   - USING INDEX: only works for PK and UNIQUE
-
-
-
-
-
-
-
+- [x] USER_CATALOG: contains a summary of info abut TABLE, VIEW, SYNONYM, SEQUENCE objects owned by your user account
+- [x] USER_OBJECTS: similiar but much more info
+- [x] USER_SYNONYMS: private sysnonym
+- [x] USER_TAB_PRIVS: object privileges
+- [x] V$_, GV_$: dynamic performace views and global ...
+- [x] USER_CONSTRAINTS: 
+  - C: CHECK or NOT NULL
+  - DELETE_RULE: shows if a FK was created with ON DELETE CASCADE or ON DELETE SET NULL
+  - SEARCH_CONDITION: inspecting CHECK 
+- [x] SYS is the owner of the data dictionary
+- [x] COMMENT
+  - table and column suport commnet: ALL_TAB_COMMENTS, ALL_COL_COMMNENTS
+```sql
+COMMENT ON TABLE/COLUMN tab/tab.col IS c1/'';
+```
 
 
 
