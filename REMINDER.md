@@ -45,7 +45,7 @@ natural join hr.departments
 - [x] UNION/INTERSECT/MINUS query: 
   - Column names returned are determined by the first SELECT
   - ORDER BY can only be placed at the very end of the compound query
-
+  - UNION, INTERSECT and MINUS all will eliminate duplicate rows, except UNION ALL
 - [x] INDEX and CONSTRAINT has its own namespace
 - [x] ALTER SESSION SET TIME_ZONE = 
   - Default local time zone when the session was started (local)
@@ -140,12 +140,12 @@ update emp set SALARY = null where employee_id = 101;
 - [x] CTAS: any CONSTRAINT or INDEX or any ohter supporting objects that might exist for the source table are not replicated, with one exception: any explicitly created NOT NULL constraints on the queried table are copied into the new table with a system-generated name as part of the table's definition. 
 - [x] COLUMN:
   - ALTER TABLE tab ADD/MODIFY: only more than one column need to be enclosed in parentheses
-    - cannot change exist column's datatype, not support Automatic datatype conversion
+    - you cannot change a column's datatype if the column contains data already: not support Automatic datatype conversion
   - ALTER TABLE tab RENAME COLUMN old TO new
   - ALTER TABLE tab DROP COLUMN col; ALTER TABLE tab DROP (col1, col2, ..); 
     - at least one column
     - if a column is referenced by a FK in another table, add "CASCADE CONSTRAINTS"
-  - ALTER TABLE tab SET UNUSED COLUMN col; ALTER TABLE tab SET UNUSED (col1, col2, ..); 
+  - ALTER TABLE tab SET UNUSED COLUMN col; ALTER TABLE tab SET UNUSED (col1, col2, ..); still keep the storage
 ```sql
 CREATE TABLE orders (
 ORD_ID NUMBER,
