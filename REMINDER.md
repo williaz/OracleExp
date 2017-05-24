@@ -76,7 +76,11 @@ sales_id number
 insert into orders values(1, 5, 2);
 update orders set order_id = 2, (total, sales_id) = (select 4, 3 from dual) where order_id = 1;
 ```
-- [x] INSERT DEFAULT value
+- [x] INSERT 
+  - Multi-table INSERT, 
+    - if one of the INTO clauses executed on a table and resulted in a constraint violation, then the entire statement fails, and all inserted rows are rolled back. 
+    - No sequence genrator is allowed in the subquery
+  - DEFAULT value
 ```sql
 drop table worker;
 create table worker(
@@ -195,7 +199,33 @@ ALTER TABLE orders RENAME COLUMN ORD_ID TO OD_ID;
 ```sql
 COMMENT ON TABLE/COLUMN tab/tab.col IS c1/'';
 ```
-
+- [x] Hierarchical Query
+  - START WITH: identifies the root node, while PK is an ideal way, but it's not required
+  - WHERE: if used, must precede the START WITH and CONNECT BY
+  - CONNECT_BY_ROOT: connect the row identified by START WITH 
+- [x] REGEXP:
+  - character classes must be specified in lowercase letters
+  - REGEXP_LIKE: does not use the same wildcard operators as LIKE.(% and * are accepted as string literals)
+  - REGEXP_REPLACE: replacement def-NULL
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 
