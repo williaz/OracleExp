@@ -207,8 +207,20 @@ COMMENT ON TABLE/COLUMN tab/tab.col IS c1/'';
   - character classes must be specified in lowercase letters
   - REGEXP_LIKE: does not use the same wildcard operators as LIKE.(% and * are accepted as string literals)
   - REGEXP_REPLACE: replacement def-NULL
-  
-  
+- [x] Privilege:
+  - CREATE privs also include ALTER and DROP
+  - ANY: 
+  - ALL PRIVILEGES
+  - PUBLIC
+```sql 
+GRANT CREATE ANY TABLE TO PUBLIC; 
+GRANT ALL PRIVILEGES To user;
+GRANT ALL PRIVILEGES ON obj To user;
+```
+- [x] System Privs VS Object Privs:
+  - System: WITH ADMIN OPTION; revoke not cascade
+  - Obj: WITH GRANT OPTION; revoke do cascade
+- [x] Roles exist in a namespace outside of an individual user account
   
   
   
