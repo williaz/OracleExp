@@ -33,6 +33,8 @@ on emp.department_id = dep.department_id;
 - [x] GROUPING: 
   - require GROUP BY, syntax err
   - there cannot be any superaggregate roows without ROLLUP or CUBE -> GROUPING always return 0
+  - GROUPING assigns 1 to each superaggregate row - meaning a row that shows a subtotal or total of the expression specified in GROUPING
+  - only valid in a SELECT statement that uses a GROUP BY 
 - [x] GROUPING SET: using UNION ALL
 - [x] SQL execution order: FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY
 - [x] NATURAL JOIN may suprise you, as you don't control the condition
@@ -62,8 +64,6 @@ natural join hr.departments
 - [x] GRANT: grant object privilege on one object per query.
 - [x] VERSIONS BETWEEN must precde the AS OF clause
 - [x] SEQENCE: if CYCLE presnets, MINVALUE def = 1
-- [ ] GROUPING assigns 1 to each superaggregate row - meaning a row that shows a subtotal or total of the expression specified in GROUPING
-  - only valid in a SELECT statement that uses a GROUP BY 
 - [ ] INDEX are never used for !=, NOT IN, IS NULL
 - [x] UPDATE multi-columns in SET
 ```sql
